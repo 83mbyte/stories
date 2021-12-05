@@ -59,15 +59,15 @@ export const authAPI = {
                 const user = userCredential.user;
                 if (user) {
                     let userId = user.uid;
-                    let token = user.accessToken;
+                    let accessToken = user.accessToken;
                     personObject = { [userId]: { name, about, userId, avatar: '/images/personDefault.jpg', email } };
                     //add user
-                    addUserToDb(personObject, token);
+                    addUserToDb(personObject, accessToken);
 
                     //add user to public
-                    addUserToDb(personObject, token, true);
+                    addUserToDb(personObject, accessToken, true);
 
-                    return {userId, email, token};
+                    return {userId, email, accessToken};
                 }
                 // ...
                 return null;

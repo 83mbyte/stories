@@ -2,11 +2,11 @@ import { auth } from '../../_firebase/firebase';
 import { authAPI } from '../../services/authFunctions';
 import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
-import { useState } from 'react';
-import { actionCreatorAuthLogin } from '../../redux/actions';
+import { useState } from 'react'; 
 
 import { Modal, Button } from 'react-bootstrap'
-
+import {actionCreatorAuthLogin, actionCreatorGetUserData} from '../../redux/actions'
+import {API} from '../../services/API';
 
 const Registration = (props) => {
     let navigate = useNavigate();
@@ -31,7 +31,7 @@ const Registration = (props) => {
 
     const handleClose = () => {
         setShow(false);
-        navigate('/login');
+        navigate('/');
     };
     
   
@@ -44,10 +44,19 @@ const Registration = (props) => {
         let { email, password, fullname, about } = Object.fromEntries(ent);
         let newUser = await authAPI.registerUserAccount(auth, email, password, fullname, about);
         if (newUser !== 'error' && newUser!=undefined) {
+            
             setMessage(["Registration complete!", "Thank you for registration!"]);
             setShow(true); 
+            props.loginUser(newUser);
+            API.getUserProfile(newUser.userId, newUser.accessToken).then((resp) => {
+                if (resp !== 'error' && resp !==undefined) {
+                    props.getUserProfileData(resp);
+                }
+            })
+
         } else {
             setMessage(["Warning!", "Registration was NOT completed.. Try again."]);
+            setShow(true); 
              
         };
     }
@@ -99,5 +108,22 @@ const mapStateToProps = (state) => {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
 
-export default connect(mapStateToProps)(Registration);
+    return {
+        loginUser: (userData) => {
+            //dispatch(actionCreatorToggleIsFetching(true));
+            dispatch(actionCreatorAuthLogin(userData));
+            //dispatch(actionCreatorToggleIsFetching(false));
+        },
+        getUserProfileData: (userData) => {
+            //TODO thunk to get users
+            //dispatch(actionCreatorToggleIsFetching(true));
+            dispatch(actionCreatorGetUserData(userData));
+            //dispatch(actionCreatorToggleIsFetching(false));
+        }
+    }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);
