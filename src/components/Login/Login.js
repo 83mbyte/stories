@@ -19,7 +19,7 @@ const Login = (props) => {
             .then(resp => {
                 props.loginUser(resp);
                 API.getUserProfile(resp.userId, resp.accessToken).then((resp) => {
-                    if (resp !== 'error') {
+                    if (resp !== 'error' && resp !==undefined) {
                         props.getUserProfileData(resp);
                         navigate(`/profile`);
                     }

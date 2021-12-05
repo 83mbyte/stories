@@ -9,7 +9,9 @@ import reportWebVitals from './reportWebVitals';
 import store from './redux/storeGenerate';
 import { Provider } from "react-redux";
 
-window.store = store;
+/* Don't forget to remove window.store */
+window.store = store; // just a debugging helper
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

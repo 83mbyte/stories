@@ -29,6 +29,7 @@ export const authAPI = {
 
     registerUserAccount(auth, email, password, name, about) {
         let personObject;
+
         const addUserToDb = async (data, accessToken = null, publ) => {
             let url = `${BASEURL}/_private/users.json/?auth=${accessToken}`
 
@@ -66,7 +67,7 @@ export const authAPI = {
                     //add user to public
                     addUserToDb(personObject, token, true);
 
-                    return personObject;
+                    return {userId, email, token};
                 }
                 // ...
                 return null;
