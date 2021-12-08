@@ -43,6 +43,19 @@ const storiesApp = (state = {}, action) => {
                 ...state,
                 system: { ...state.system, currentUser: { ...state.system.currentUser, [action.data[0]]: action.data[1] } }
             }
+        case actionType.SUBMIT_MODIFY_PROFILE:
+            console.log('SUBMIT_MODIFY_PROFILE');
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    [action.payload.userId]:{
+                        ...state.users[action.payload.userId],
+                        name: action.payload.name,
+                        about: action.payload.about
+                    }
+                }
+            }
 
 
         case actionType.POST_ARTICLE:
@@ -98,8 +111,30 @@ const storiesApp = (state = {}, action) => {
                     }
                 }
             }
+        case actionType.EDIT_ARTICLE:
+            console.log('EDIT_ARTICLE');
+            return {
+                ...state,
+
+                articles: {
+                    ...state.articles,
+                    [action.articleId]: {
+                        ...state.articles[action.articleId],
+                        [action.data[0]]: action.data[1]
+                    }
+                }
+            }
+
+        // TODO: DELET ARTICLE 
+        case actionType.DELETE_ARTICLE:
+            let newState = { ...state };
+            delete newState.articles[action.articleId];
+
+            return {
+                ...newState,
+            }
         default:
-            return state;
+            return { ...state };
     }
 
 }

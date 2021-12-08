@@ -1,8 +1,14 @@
-
+import s from '../IndexPage.module.css';
 import { Link } from "react-router-dom";
 
 const IndexArticlesItem = ({ articleData, author, articleId, likesCount, views }) => {
 
+    function convertDate(time) {
+        let date = new Date(parseInt(time));
+        let res = date.toDateString().split(' ');
+
+        return (`${res[2]} ${res[1]} ${res[3]}`);
+    }
     return (
         <div className="col-md-4">
             <div className="blog-entry">
@@ -22,7 +28,7 @@ const IndexArticlesItem = ({ articleData, author, articleId, likesCount, views }
                         <div className="ml-3 info">
                             <span>Written by</span>
 
-                            <h3><Link to="#">{author.name}</Link>, <span>{articleData.date}</span></h3>
+                            <h3><Link to="#">{author.name}</Link>, <div className={s.publishDate}>{convertDate(articleData.date)}</div></h3>
                         </div>
                     </div>
                     <div className="meta-wrap align-items-center">

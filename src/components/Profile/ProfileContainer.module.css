@@ -10,3 +10,15 @@
 
     margin: 0 auto;
 }
+
+.editArticle:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.smallDescr {
+    font-size: 10px;
+}
+
+.titleName {
+    font-size: 25px;;
+}

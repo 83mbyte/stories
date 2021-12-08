@@ -37,7 +37,7 @@ const Aside = (props) => {
 			<nav id="colorlib-main-menu" role="navigation">
 				<ul>
 					{/* //TODO  active link style */}
-					<li className="colorlib-active"><Link to="/">Home</Link><br /> </li>
+					<li className="colorlib"><Link to="/">Home</Link><br /> </li>
 
 					{
 						props.isLogged 

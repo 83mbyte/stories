@@ -2,6 +2,7 @@ import { useEffect } from "react";
  
 import API from "../../services/API";
 
+import s from './SingleArticle.module.css';
 
 const SingleArticle = ({ article, author, articleId, isLogged, likeArticle, unlikeArticle, likes, countView, views }) => {
     useEffect (()=>{
@@ -20,8 +21,7 @@ const SingleArticle = ({ article, author, articleId, isLogged, likeArticle, unli
                 likeArticle(articleId, isLogged.userId) //dispatch to our store
             } else {
                 console.log('Something wrong..  Like was not setted');
-                //TODO modal warning
-                alert('Error')
+                 
             }
         })
 
@@ -34,8 +34,7 @@ const SingleArticle = ({ article, author, articleId, isLogged, likeArticle, unli
                 unlikeArticle(articleId, isLogged.userId) //dispatch to our store
             } else {
                 console.log('Something wrong..  Like was not setted');
-                //TODO modal warning
-                alert('Error');
+                
             }
         })
     }
@@ -44,7 +43,7 @@ const SingleArticle = ({ article, author, articleId, isLogged, likeArticle, unli
         <>
             <h2 className="mb-3 font-weight-bold">{article.title}</h2>
             <img src={article.image} alt="" className="img-fluid" />
-            <p>{article.text}</p>
+            <p className={s.articleText}>{article.text}</p>
             {isLogged
                 ? <div style={{ width: "70%", margin: "0 auto", textAlign: "center" }}>
                     Like the article? Don't forget to mark it.

@@ -1,9 +1,12 @@
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { connect } from "react-redux";
 
 import { Modal, InputGroup, Form, Button } from "react-bootstrap";
-import { useState } from "react";
-import { connect } from "react-redux";
+
 import { actionCreatorPostArticle } from '../../redux/actions';
-import API, { } from '../../services/API';
+import {API } from '../../services/API';
+
 
 function ModalDialog(props) {
     return (
@@ -33,6 +36,7 @@ function ModalDialog(props) {
 //TODO validation form
 const CreateArticle = (props) => {
     const [modalShow, setModalShow] = useState(false);
+    let navigate = useNavigate();
 
     let categorArray = ['Travel', 'Sport', 'Tech', 'Fashion', 'Psychology', 'WWW', 'Crime', 'Business', 'Discuss', 'Shopping', 'Art', 'Cusine', 'Media', 'Crypto', 'Medicine', '..other'];
 
@@ -47,7 +51,8 @@ const CreateArticle = (props) => {
         let formData = new FormData(e.target);
         let title = formData.get('title');
         let text = formData.get('text');
-        let date = getCurrentDate();
+        //let date = getCurrentDate();
+        let date = Date.now();
         let authorId = props.isLogged.userId;
         let category = formData.get('category');
         let check = formData.get('checkbox');
@@ -73,6 +78,7 @@ const CreateArticle = (props) => {
                     [resp.name]: { ...articleToPostObject }
                 }
                 props.postNewArticle(articleToDispatch);
+                navigate('/')
             });
         } else {
             setModalShow(true)

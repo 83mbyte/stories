@@ -5,10 +5,13 @@ export const actionType = {
     AUTH_LOGOUT: 'AUTH_LOGOUT',
     GET_USER_PROFILE_DATA: 'GET_USER_PROFILE_DATA',
     MODIFY_PROFILE: 'MODIFY_PROFILE',
+    SUBMIT_MODIFY_PROFILE :'SUBMIT_MODIFY_PROFILE',
     POST_ARTICLE: 'POST_ARTICLE',
     LIKE_ARTICLE: 'LIKE_ARTICLE',
     UNLIKE_ARTICLE: 'UNLIKE_ARTICLE',
-    ADD_COUNT_ARTICLE: 'ADD_COUNT_ARTICLE'
+    ADD_COUNT_ARTICLE: 'ADD_COUNT_ARTICLE',
+    EDIT_ARTICLE : 'EDIT_ARTICLE',
+    DELETE_ARTICLE : 'DELETE_ARTICLE'
 }
 
 export const actionCreatorGetInitialState = (data) => {
@@ -43,6 +46,13 @@ export const actionCreatorModifyProfile = (fieldName, value) => {
     }
 }
 
+export const actionCreatorSubmitModifyProfile = (name,about,userId) => {
+    return {
+        type: actionType.SUBMIT_MODIFY_PROFILE,
+        payload: {name,about,userId}
+    }
+}
+
 export const actionCreatorPostArticle = (articleObj) => {
     return {
         type: actionType.POST_ARTICLE,
@@ -71,6 +81,20 @@ export const actionCreatorViewArticle = (articleId) => {
     }
 }
 
+export const actionCreatorEditArticle = (fieldName, value, articleId) => {
+    return {
+        type: actionType.EDIT_ARTICLE,
+        data: [fieldName, value],
+        articleId
+    }
+}
+ 
+export const actionCreatorDeleteArticle  = (articleId) =>{
+    return {
+        type: actionType.DELETE_ARTICLE,
+        articleId
+    }
+}
 
 
 

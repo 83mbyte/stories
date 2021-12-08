@@ -9,9 +9,9 @@ return 'error' */
 
 
 export const API = {
-    
 
-    getUserProfile : async (userId, accessToken) => {
+
+    getUserProfile: async (userId, accessToken) => {
         let resp = await fetch(`${BASEURL}/_private/users/${userId}.json/?auth=${accessToken}`)
 
         if (resp.status === 200) {
@@ -20,7 +20,35 @@ export const API = {
         return 'error'
     },
 
-    submitNewArticle: async(articleObj, accessToken) => {
+    modifyProfile: async(userData,userId, accessToken) => {
+         
+        let resp = await fetch(`${BASEURL}/_private/users/${userId}.json/?auth=${accessToken}`, {
+            method:'PATCH',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+
+        if (resp.status === 200) {
+            resp = await fetch(`${BASEURL}/publ/users/${userId}.json/?auth=${accessToken}`, {
+                method:'PATCH',
+                headers: {
+                    'content-type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            });
+        }
+
+
+        if (resp.status === 200) {
+            return resp.json();
+        }
+        return 'error'
+        
+    },
+
+    submitNewArticle: async (articleObj, accessToken) => {
         let resp = await fetch(`${BASEURL}/publ/articles.json/?auth=${accessToken}`, {
             method: 'POST',
             headers: {
@@ -30,7 +58,34 @@ export const API = {
 
         });
         if (resp.status === 200) {
-             
+
+            return resp.json();
+        }
+
+        return 'error';
+    },
+
+    editArticle: async (articleObj, articleId, accessToken) => {
+        let resp = await fetch(`${BASEURL}/publ/articles/${articleId}/.json/?auth=${accessToken}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify(articleObj)
+
+        });
+        if (resp.status === 200) {
+            return resp.json();
+        }
+
+        return 'error';
+    },
+
+    deleteArticle: async (articleId, accessToken) => {
+        let resp = await fetch(`${BASEURL}/publ/articles/${articleId}.json/?auth=${accessToken}`, {
+            method: 'DELETE',
+        });
+        if (resp.status === 200) {
             return resp.json();
         }
 
@@ -43,7 +98,7 @@ export const API = {
             headers: {
                 'content-type': 'application/json',
             },
-            body: JSON.stringify({[userId]:"true"})
+            body: JSON.stringify({ [userId]: "true" })
 
         });
         if (resp.status === 200) {
@@ -52,20 +107,20 @@ export const API = {
         return 'error';
 
     },
-    
-    removeLike: async(articleId, userId, accessToken) => {
+
+    removeLike: async (articleId, userId, accessToken) => {
         let resp = await fetch(`${BASEURL}/publ/likes/${articleId}/${userId}.json/?auth=${accessToken}`,
-        {
-            method: 'DELETE',
-        })
+            {
+                method: 'DELETE',
+            })
 
         if (resp.status === 200) {
             return resp;
         }
         return 'error';
     },
-     
-    incrementView: async(articleId, userId, accessToken, viewCount) => {
+
+    incrementView: async (articleId, userId, accessToken, viewCount) => {
         let resp = await fetch(`${BASEURL}/publ/articles/${articleId}/meta/views.json/?auth=${accessToken}`, {
             method: 'PUT',
             headers: {

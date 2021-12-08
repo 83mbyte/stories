@@ -1,19 +1,18 @@
+ 
 import EditProfile from "./EditProfile";
 
-
-// TODO module.css file and add some styles in..
-const Profile = (props) =>{
+const Profile = (props) => {
     return (
         <>
-            {props.isLogged  
+            {props.isLogged
                 ? <section className="ftco-section">
                     <div className="hero-wrap hero-wrap-2 js-fullheight"   >
 
                         <div className="js-fullheight d-flex justify-content-center align-items-center">
                             <div className="col-md-8 text text-center">
-                                <div className="img mb-4" style={{backgroundImage: `url(${props.user.avatar})`}} ></div>
+                                <div className="img mb-4" style={{ backgroundImage: `url(${props.user.avatar})` }} ></div>
                                 <div className="desc">
-                                    <h2 className="subheading">Hello I'm  </h2>
+                                    <h2 className="subheading">Hello </h2>
                                     <h1 className="mb-4">{props.user.name}</h1>
                                     <p className="mb-4">{props.user.about}</p>
                                     <ul className="ftco-social mt-3">
@@ -26,7 +25,15 @@ const Profile = (props) =>{
                         </div>
                     </div>
 
-                   <EditProfile user={props.user} editProfileField={props.editProfileField} />
+                    <EditProfile
+                        user={props.user}
+                        accessToken={props.isLogged}
+                        editProfileField={props.editProfileField}
+                        articles={props.articles}
+                        deleteArticle={props.deleteArticle}
+                        submitModifiedProfile={props.submitModifiedProfile}
+                    />
+
                 </section>
                 : <h1>Please login first...</h1>
 

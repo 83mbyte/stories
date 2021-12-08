@@ -2,6 +2,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Aside from "./components/Aside/Aside";
 import CreateArticle from './components/CreateArticle/CreateArticle';
+import Editor from './components/Editor/Editor';
 import IndexPage from './components/IndexPage/IndexPage';
 import Login from './components/Login/Login';
 import ProfileContainer from './components/Profile/ProfileContainer';
@@ -25,6 +26,8 @@ function App() {
               <Route path="/article/:articleId" element={<SingleArticleContainer />} />
               <Route path="/profile" element={<ProfileContainer />} />
               <Route path="/create" element={<CreateArticle />} />
+              <Route path="/editor/:articleId" element={<Editor />} />
+              
             </Routes>
 
 
