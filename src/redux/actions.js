@@ -3,6 +3,7 @@ export const actionType = {
     TOGGLE_IS_FETCHING: 'TOGGLE_IS_FETCHING',
     AUTH_LOGIN: 'AUTH_LOGIN',
     AUTH_LOGOUT: 'AUTH_LOGOUT',
+    ADD_NEW_USER:'ADD_NEW_USER',
     GET_USER_PROFILE_DATA: 'GET_USER_PROFILE_DATA',
     MODIFY_PROFILE: 'MODIFY_PROFILE',
     SUBMIT_MODIFY_PROFILE :'SUBMIT_MODIFY_PROFILE',
@@ -27,15 +28,24 @@ export const actionCreatorAuthLogin = (data) => {
         data
     }
 }
+export const actionCreatorAddNewUser = (data) => {
+    return {
+        type: actionType.ADD_NEW_USER,
+        data
+    }
+
+}
 
 export const actionCreatorAuthLogout = () => {
     return { type: actionType.AUTH_LOGOUT }
 }
 
-export const actionCreatorGetUserData = (data) => {
+ 
+
+export const actionCreatorGetUserData = (userId) => {
     return {
         type: actionType.GET_USER_PROFILE_DATA,
-        userData: { ...data }
+        userId
     }
 }
 

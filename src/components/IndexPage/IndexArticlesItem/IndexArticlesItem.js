@@ -24,11 +24,11 @@ const IndexArticlesItem = ({ articleData, author, articleId, likesCount, views }
 
                         {/* Links to Author profile? */}
 
-                        <Link to="#" className="img" style={{ backgroundImage: `url(${author.avatar})` }}></Link>
+                        <Link to={`/author/${author.userId}`} className="img" style={{ backgroundImage: `url(${author.avatar})` }}></Link>
                         <div className="ml-3 info">
                             <span>Written by</span>
 
-                            <h3><Link to="#">{author.name}</Link>, <div className={s.publishDate}>{convertDate(articleData.date)}</div></h3>
+                            <h3><Link to={`/author/${author.userId}`}>{author.name}</Link>, <div className={s.publishDate}>{convertDate(articleData.date)}</div></h3>
                         </div>
                     </div>
                     <div className="meta-wrap align-items-center">

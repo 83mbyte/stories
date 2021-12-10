@@ -1,12 +1,14 @@
-import { auth } from '../../_firebase/firebase';
-import { authAPI } from '../../services/authFunctions';
+import { auth ,storage} from '../../_firebase/firebase';
+import { authAPI } from '../../services/authAPI';
 import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
 import { useState } from 'react'; 
 
 import { Modal, Button } from 'react-bootstrap'
-import {actionCreatorAuthLogin, actionCreatorGetUserData} from '../../redux/actions'
-import {API} from '../../services/API';
+import {actionCreatorAuthLogin, actionCreatorAddNewUser, actionCreatorGetUserData} from '../../redux/actions'
+//import {API} from '../../services/API';
+
+ 
 
 const Registration = (props) => {
     let navigate = useNavigate();
@@ -36,23 +38,35 @@ const Registration = (props) => {
     
   
     const registrationHandler = async (e) => {
-
+        ///////////////////////////////////////////////////////
+        //TODO : registration issue, doesn't load a correct profile page.
+        //////////////////////////////////////////////////////
         e.preventDefault();
         let formData = new FormData(e.target);
         let ent = formData.entries();
         
-        let { email, password, fullname, about } = Object.fromEntries(ent);
-        let newUser = await authAPI.registerUserAccount(auth, email, password, fullname, about);
-        if (newUser !== 'error' && newUser!=undefined) {
+        let { email, password, fullname, about, file } = Object.fromEntries(ent);
+         
+        if (file.size===0 || file.name===""){
+            file=null
+        }
+
+        let newUser = await authAPI.registerUserAccount(auth,storage, email, password, fullname, about, file);
+       
+         if (newUser && newUser[1] !== 'error' && newUser[1]!=undefined && newUser[1]!=null) {
             
             setMessage(["Registration complete!", "Thank you for registration!"]);
-            setShow(true); 
-            props.loginUser(newUser);
-            API.getUserProfile(newUser.userId, newUser.accessToken).then((resp) => {
+            setShow(true);
+            //props.addUser(newUser[0]) 
+            props.loginUser(newUser[0], newUser[1]);
+            props.getUserProfileData(newUser[1].userId);
+            /* API.getUserProfile(newUser[1].userId, newUser[1].accessToken).then((resp) => {
+
                 if (resp !== 'error' && resp !==undefined) {
+                    console.log(resp)
                     props.getUserProfileData(resp);
                 }
-            })
+            }) */
 
         } else {
             setMessage(["Warning!", "Registration was NOT completed.. Try again."]);
@@ -86,6 +100,10 @@ const Registration = (props) => {
                         <input type="text" name="fullname" placeholder="ex: John Doe" id="fullname" style={{ margin: "0" }} />
                     </div>
                     <div style={{ margin: "20px 0" }}>
+                        <div style={{ margin: "0", padding: "0" }}><label>Profile Photo:</label></div>
+                        <input type="file" name="file"  /> 
+                    </div>
+                    <div style={{ margin: "20px 0" }}>
                         <div style={{ margin: "0", padding: "0" }}><label>A few words about You:</label></div>
                         <textarea name="about" placeholder="Text About You" rows={3} cols={18} style={{ margin: "0" }} id="about" />
                     </div>
@@ -104,22 +122,26 @@ const Registration = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isLogged: state.db.system ? state.db.system.isAuth : null
+        isLogged: state.db.system ? state.db.system.isAuth : ""
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        loginUser: (userData) => {
+        loginUser: (userObj, authObj) => {
             //dispatch(actionCreatorToggleIsFetching(true));
-            dispatch(actionCreatorAuthLogin(userData));
+            dispatch(actionCreatorAddNewUser(userObj));
+            dispatch(actionCreatorAuthLogin(authObj));
+            
             //dispatch(actionCreatorToggleIsFetching(false));
         },
-        getUserProfileData: (userData) => {
+        
+ 
+        getUserProfileData: (userId) => {
             //TODO thunk to get users
             //dispatch(actionCreatorToggleIsFetching(true));
-            dispatch(actionCreatorGetUserData(userData));
+            dispatch(actionCreatorGetUserData(userId));
             //dispatch(actionCreatorToggleIsFetching(false));
         }
     }

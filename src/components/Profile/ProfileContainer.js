@@ -5,12 +5,23 @@ import Profile from "./Profile";
 const ProfileContainer = (props) => {
 
     //Filter articles where author is the logged user
-    let userArticles = Object.keys(props.articles).map(item => {
+    /* let userArticles = Object.keys(props.articles).map(item => {
         if (props.articles[item].authorId == props.isLogged.userId) {
             return { [item]: props.articles[item] }
         }
         return null
-    }).filter(item => item != null);
+    }).filter(item => item != null); */
+
+    const ua = () => {
+       let userArticles= Object.keys(props.articles).map( (item) => {
+            if (props.articles[item].authorId == props.isLogged.userId) {
+                return { [item]: props.articles[item] }
+            }
+            return null
+        }).filter(item => item != null);
+        console.log('===!!=== '+userArticles)
+        return userArticles
+    }
 
 
 
@@ -23,7 +34,8 @@ const ProfileContainer = (props) => {
                     isLogged={props.isLogged.accessToken}
                     user={props.currentUser}
                     editProfileField={props.modifyProfile}
-                    articles={userArticles}
+                    //articles={userArticles}
+                    articles={ua()}
                     deleteArticle={props.deleteArticle}
                     submitModifiedProfile={props.submitModifiedProfile}
                 />

@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { auth } from '../../_firebase/firebase';
-import { authAPI } from '../../services/authFunctions';
+import { authAPI } from '../../services/authAPI';
 import { API } from '../../services/API';
 import { useNavigate } from "react-router-dom";
 import { actionCreatorAuthLogin, actionCreatorGetUserData } from '../../redux/actions';

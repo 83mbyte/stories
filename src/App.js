@@ -1,6 +1,7 @@
 
 import { Routes, Route } from 'react-router-dom';
 import Aside from "./components/Aside/Aside";
+import AuthorContainer from './components/Author/AuthorContainer';
 import CreateArticle from './components/CreateArticle/CreateArticle';
 import Editor from './components/Editor/Editor';
 import IndexPage from './components/IndexPage/IndexPage';
@@ -8,6 +9,7 @@ import Login from './components/Login/Login';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import Registration from './components/Registration/Registration';
 import SingleArticleContainer from './components/SingleArticle/SingleArticleContainer';
+ 
  
 function App() {
   return (
@@ -24,9 +26,11 @@ function App() {
               <Route path="/registration" element={<Registration />} />
  
               <Route path="/article/:articleId" element={<SingleArticleContainer />} />
+              <Route path="/author/:authorId" element={<AuthorContainer />} />
               <Route path="/profile" element={<ProfileContainer />} />
               <Route path="/create" element={<CreateArticle />} />
-              <Route path="/editor/:articleId" element={<Editor />} />
+              <Route path="/editor" element={<Editor />} />
+
               
             </Routes>
 

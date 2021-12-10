@@ -1,5 +1,4 @@
 import { actionType } from "./actions";
-const GET_USER_PROFILE_DATA = 'GET_USER_PROFILE_DATA';
 
 
 const storiesApp = (state = {}, action) => {
@@ -11,7 +10,18 @@ const storiesApp = (state = {}, action) => {
             return {
                 ...state,
             }
-
+        case actionType.ADD_NEW_USER:
+            console.log('ADD_NEW_USER ACTION')
+            //let userId = Object.keys(action.data)[0]
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    [action.data.userId]: {
+                        ...action.data
+                    }
+                }
+            }
 
         case actionType.AUTH_LOGIN:
             console.log('LOGIN ACTION')
@@ -25,16 +35,25 @@ const storiesApp = (state = {}, action) => {
             console.log('LOGOUT ACTION')
             return {
                 ...state,
-                system: { ...state.system, isAuth: "" }
+                system: {
+                    ...state.system,
+                    isAuth: "",
+                    currentUser: ""
+                }
             }
 
 
-        case GET_USER_PROFILE_DATA:
+         
+        case actionType.GET_USER_PROFILE_DATA:
             console.log('action called: GET_USER_PROFILE_DATA')
             return {
                 ...state,
-                system: { ...state.system, currentUser: { ...action.userData } }
+                system: {
+                    ...state.system,
+                    currentUser: { ...state.users[action.userId] }
+                }
             }
+         
 
 
         case actionType.MODIFY_PROFILE:
@@ -49,7 +68,7 @@ const storiesApp = (state = {}, action) => {
                 ...state,
                 users: {
                     ...state.users,
-                    [action.payload.userId]:{
+                    [action.payload.userId]: {
                         ...state.users[action.payload.userId],
                         name: action.payload.name,
                         about: action.payload.about
@@ -125,7 +144,7 @@ const storiesApp = (state = {}, action) => {
                 }
             }
 
-        // TODO: DELET ARTICLE 
+
         case actionType.DELETE_ARTICLE:
             let newState = { ...state };
             delete newState.articles[action.articleId];
@@ -133,6 +152,7 @@ const storiesApp = (state = {}, action) => {
             return {
                 ...newState,
             }
+
         default:
             return { ...state };
     }

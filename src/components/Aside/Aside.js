@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { auth } from '../../_firebase/firebase';
 import {actionCreatorAuthLogout} from '../../redux/actions';
-import { authAPI } from '../../services/authFunctions';
+import { authAPI } from '../../services/authAPI';
 
 
 
@@ -26,7 +26,6 @@ const Aside = (props) => {
 		<>
 			<li><Link to="/registration">Register</Link></li>
 			<li><Link to="/login">Login</Link><br /><br /></li>
-	
 		</>
 	)
 	

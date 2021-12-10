@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { actionCreatorGetInitialState } from './actions';
 import storiesApp from '../redux/reducers';
 
-function getAndSetInitialState(store) {
+export function getAndSetInitialState(store) {
 
   // get state from server
   return fetch('https://stories-8a67d-default-rtdb.firebaseio.com/publ.json')
