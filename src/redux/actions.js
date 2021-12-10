@@ -5,6 +5,7 @@ export const actionType = {
     AUTH_LOGOUT: 'AUTH_LOGOUT',
     ADD_NEW_USER:'ADD_NEW_USER',
     GET_USER_PROFILE_DATA: 'GET_USER_PROFILE_DATA',
+    GET_LOGGED_USER_PROFILE_DATA: 'GET_LOGGED_USER_PROFILE_DATA',
     MODIFY_PROFILE: 'MODIFY_PROFILE',
     SUBMIT_MODIFY_PROFILE :'SUBMIT_MODIFY_PROFILE',
     POST_ARTICLE: 'POST_ARTICLE',
@@ -46,6 +47,13 @@ export const actionCreatorGetUserData = (userId) => {
     return {
         type: actionType.GET_USER_PROFILE_DATA,
         userId
+    }
+}
+
+export const actionCreatorGetLoggedUserData = (data) => {
+    return {
+        type: actionType.GET_LOGGED_USER_PROFILE_DATA,
+        userData: { ...data }
     }
 }
 

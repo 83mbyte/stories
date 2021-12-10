@@ -12,7 +12,7 @@ const storiesApp = (state = {}, action) => {
             }
         case actionType.ADD_NEW_USER:
             console.log('ADD_NEW_USER ACTION')
-            //let userId = Object.keys(action.data)[0]
+             
             return {
                 ...state,
                 users: {
@@ -43,7 +43,7 @@ const storiesApp = (state = {}, action) => {
             }
 
 
-         
+
         case actionType.GET_USER_PROFILE_DATA:
             console.log('action called: GET_USER_PROFILE_DATA')
             return {
@@ -53,7 +53,17 @@ const storiesApp = (state = {}, action) => {
                     currentUser: { ...state.users[action.userId] }
                 }
             }
-         
+
+        case actionType.GET_LOGGED_USER_PROFILE_DATA:
+            console.log('action called: GET_LOGGED_USER_PROFILE_DATA')
+            return {
+                ...state,
+                system: {
+                    ...state.system,
+                    currentUser: { ...action.userData }
+                }
+            }
+
 
 
         case actionType.MODIFY_PROFILE:

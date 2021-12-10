@@ -3,7 +3,7 @@ import { auth } from '../../_firebase/firebase';
 import { authAPI } from '../../services/authAPI';
 import { API } from '../../services/API';
 import { useNavigate } from "react-router-dom";
-import { actionCreatorAuthLogin, actionCreatorGetUserData } from '../../redux/actions';
+import { actionCreatorAuthLogin, actionCreatorGetLoggedUserData  } from '../../redux/actions';
 
 
 
@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch) => {
         getUserProfileData: (userData) => {
             //TODO thunk to get users
             //dispatch(actionCreatorToggleIsFetching(true));
-            dispatch(actionCreatorGetUserData(userData));
+            dispatch(actionCreatorGetLoggedUserData(userData));
             //dispatch(actionCreatorToggleIsFetching(false));
         }
     }
