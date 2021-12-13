@@ -62,8 +62,8 @@ const mapDispatchToProps = (dispatch) => {
         modifyProfile: (inputName, value) => {
             dispatch(actionCreatorModifyProfile(inputName, value))
         },
-        submitModifiedProfile: (name, about, userId) => {
-            dispatch(actionCreatorSubmitModifyProfile(name, about, userId))
+        submitModifiedProfile: (profileData, userId) => {
+            dispatch(actionCreatorSubmitModifyProfile(profileData, userId))
         }
 
     }

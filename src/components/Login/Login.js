@@ -3,11 +3,15 @@ import { auth } from '../../_firebase/firebase';
 import { authAPI } from '../../services/authAPI';
 import { API } from '../../services/API';
 import { useNavigate } from "react-router-dom";
-import { actionCreatorAuthLogin, actionCreatorGetLoggedUserData  } from '../../redux/actions';
+import { actionCreatorAuthLogin, actionCreatorGetLoggedUserData } from '../../redux/actions';
+import { useState } from "react";
+import ModalWindow from "../common/ModalWindow";
+
 
 
 
 const Login = (props) => {
+    const [show, setShow] = useState(false);
     let navigate = useNavigate();
 
     const submitHandler = (event) => {
@@ -17,13 +21,20 @@ const Login = (props) => {
         let password = formData.get('password');
         authAPI.loginUserAccount(auth, email, password)
             .then(resp => {
-                props.loginUser(resp);
-                API.getUserProfile(resp.userId, resp.accessToken).then((resp) => {
-                    if (resp !== 'error' && resp !==undefined) {
-                        props.getUserProfileData(resp);
-                        navigate(`/profile`);
-                    }
-                })
+                if (resp!=undefined || resp!=null) {
+                    props.loginUser(resp);
+                    API.getUserProfile(resp.userId, resp.accessToken).then((resp) => {
+                        if (resp !== 'error' && resp !== undefined) {
+                            props.getUserProfileData(resp);
+                            navigate(`/profile`);
+                        }
+                    })
+                } else {
+                    setShow(true)
+                    
+
+
+                }
             });
 
     }
@@ -46,12 +57,13 @@ const Login = (props) => {
                 {/*  {props.isLogged === null || props.isLogged === "" ? <h1>Login page</h1> : <h1>You are logged already</h1>} */}
                 {props.isLogged === null || props.isLogged === "" ? NOTLOGGED : ''}
             </div>
+            <ModalWindow show={show} setShow={setShow} info={['Warning','The provided Email/Password are wrong. Please try again!']}/>
         </>
     );
 }
 
 const mapStateToProps = (state) => {
-     
+
     return {
         //isFetching: state.db.system.isFetching,
         isLogged: state.db.system ? state.db.system.isAuth : null,

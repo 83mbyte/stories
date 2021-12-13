@@ -1,5 +1,6 @@
 
 import { connect } from 'react-redux';
+import Loader from '../common/Loader';
 import IndexArticlesItem from './IndexArticlesItem/IndexArticlesItem';
 
 
@@ -65,7 +66,7 @@ const IndexPage = (props) => {
                         </>
 
                     ) 
-                }) : 'loading..'}
+                }) :  <Loader />}
 
             </div>
         </>

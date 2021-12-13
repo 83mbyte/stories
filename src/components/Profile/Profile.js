@@ -1,5 +1,6 @@
  
 import EditProfile from "./EditProfile";
+import SocialLinks from "./SocialLinks";
 
 const Profile = (props) => {
     return (
@@ -15,11 +16,17 @@ const Profile = (props) => {
                                     <h2 className="subheading">Hello </h2>
                                     <h1 className="mb-4">{props.user.name}</h1>
                                     <p className="mb-4">{props.user.about}</p>
-                                    <ul className="ftco-social mt-3">
-                                        <li className="ftco"><a href="#"><span className="icon-twitter"></span></a></li>
-                                        <li className="ftco"><a href="#"><span className="icon-facebook"></span></a></li>
-                                        <li className="ftco"><a href="#"><span className="icon-instagram"></span></a></li>
-                                    </ul>
+                                    <SocialLinks 
+                                    social ={
+                                        {
+                                            twitter: props.user.twitter, 
+                                            facebook:props.user.facebook, 
+                                            instagram: props.user.instagram,
+                                            linkedin:props.user.linkedin
+                                        }
+                                    }
+                                     
+                                       />
                                 </div>
                             </div>
                         </div>

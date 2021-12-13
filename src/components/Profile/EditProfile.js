@@ -6,24 +6,24 @@ import s from './ProfileContainer.module.css';
 import { Accordion, Form, Button, Modal, ListGroup } from "react-bootstrap";
 
 import { API } from '../../services/API';
- 
+
 
 const ArticlesToEdit = (props) => {
     let navigate = useNavigate();
     return (
         <ListGroup.Item as="li" className={s.editArticle}>
 
-                    <span className={s.smallDescr}>Article Title: <span className={s.titleName}>"{props.data.title}"</span></span> 
-                    <div className="d-grid gap-2"><Button variant="info"
-                        onClick={() => {
-                            navigate(`/editor/${props.articleId}`);
-                        }}
-                        name={props.articleId}>Edit</Button>
+            <span className={s.smallDescr}>Article Title: <span className={s.titleName}>"{props.data.title}"</span></span>
+            <div className="d-grid gap-2"><Button variant="info"
+                onClick={() => {
+                    navigate(`/editor/${props.articleId}`);
+                }}
+                name={props.articleId}>Edit</Button>
 
-                        <Button variant="danger" onClick={() => {
-                            props.deleteArticleHandler(props.data.title, props.articleId)
-                        }}>Delete</Button>
-                    </div>            
+                <Button variant="danger" onClick={() => {
+                    props.deleteArticleHandler(props.data.title, props.articleId)
+                }}>Delete</Button>
+            </div>
         </ListGroup.Item>
     );
 
@@ -51,17 +51,40 @@ const EditProfile = (props) => {
         let name = formData.get('name');
         let about = formData.get('about');
         let check = formData.get('checkbox');
+        let twitter = formData.get('twitter');
+        let facebook = formData.get('facebook');
+        let instagram = formData.get('instagam');
+        let linkedin = formData.get('linkedin');
+        let file = formData.get('file');
+
+        let newProfileData = { name, about, twitter, facebook, instagram, linkedin }
 
         if (check == 'on') {
-            console.log(props.user.userId + ' -==- ' + props.accessToken);
-            API.modifyProfile({ name, about }, props.user.userId, props.accessToken)
-                .then(() => {
-                    props.submitModifiedProfile(name, about, props.user.userId);
-                    navigate('/');
-                })
+            //console.log(props.user.userId + ' -==- ' + props.accessToken);
+            let avatar = "/images/personDefault.jpg";
+            if (file.size > 0 || file.name != "") {
+                console.log('f name: ' + file.name);
+
+                API.uploadImage(file, props.user.userId, 'avatars')
+                    .then(url => {
+                        API.modifyProfile({ ...newProfileData, avatar: url }, props.user.userId, props.accessToken)
+                            .then(() => {
+                                props.submitModifiedProfile({ ...newProfileData, avatar: url }, props.user.userId);
+                                navigate('/');
+                            });
+                    })
+
+            } else {
+                API.modifyProfile(newProfileData, props.user.userId, props.accessToken)
+                    .then(() => {
+                        props.submitModifiedProfile(newProfileData, props.user.userId);
+                        navigate('/');
+                    });
+            }
+
+
+
         }
-
-
     }
 
     const deleteArticleHandler = (title, articleId) => {
@@ -69,8 +92,19 @@ const EditProfile = (props) => {
     }
 
     const submitDeleteArticle = (articleId) => {
+        
+        let regexFilter = /(?:articles%2F)([-][\w\d]+.[a-z]+)(?:\?)/g;
+        let filenameToDelete;
 
-        API.deleteArticle(articleId, props.accessToken)
+        props.articles.forEach(element => {
+            
+            if (Object.keys(element)[0] === articleId) {
+
+                filenameToDelete = regexFilter.exec(element[articleId].image)[1];
+            }
+        });
+
+        API.deleteArticle(articleId, filenameToDelete, props.accessToken)
             .then(() => {
                 props.deleteArticle(articleId);
                 navigate('/')
@@ -81,12 +115,12 @@ const EditProfile = (props) => {
         <>
             <Accordion className={s.accordionStyle}>
                 <Accordion.Item eventKey="0">
-                    <Accordion.Header>Edit profile</Accordion.Header>
+                    <Accordion.Header>Edit Profile</Accordion.Header>
                     <Accordion.Body>
                         <Form onSubmit={editProfileSubmitHandler}>
                             <Form.Group className="mb-3" >
                                 <Form.Label>Email:</Form.Label>
-                                <Form.Control type="email" placeholder="ex.: John Doe"
+                                <Form.Control type="email"
                                     id="userEmail"
                                     name="email"
                                     value={props.user.email}
@@ -95,7 +129,10 @@ const EditProfile = (props) => {
                             </Form.Group>
                             <Form.Group className="mb-3" >
                                 <Form.Label>Your Name:</Form.Label>
-                                <Form.Control type="text" placeholder="ex.: John Doe"
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="ex.: John Doe"
                                     id="username"
                                     name="name"
                                     value={props.user.name}
@@ -106,6 +143,49 @@ const EditProfile = (props) => {
                                 <Form.Label>About:</Form.Label>
                                 <Form.Control as="textarea" name="about" rows={3} placeholder="Text About You" defaultValue={props.user.about} onChange={editFormFieldsHandler} />
                             </Form.Group>
+
+                            <Form.Group controlId="formFile" className="mb-3">
+                                <Form.Label>Upload your profile image</Form.Label>
+                                <Form.Control type="file" name="file" size="sm" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" >
+                                <Form.Label>Twitter:</Form.Label>
+                                <Form.Control type="text" placeholder="ex.: https://twitter.com/_your_profile"
+                                    id="twitter"
+                                    name="twitter"
+                                    value={props.user.twitter}
+                                    onChange={editFormFieldsHandler}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" >
+                                <Form.Label>Facebook:</Form.Label>
+                                <Form.Control type="text" placeholder="ex.: https://facebook.com/_your_profile"
+                                    id="facebook"
+                                    name="facebook"
+                                    value={props.user.facebook}
+                                    onChange={editFormFieldsHandler}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" >
+                                <Form.Label>Instagram:</Form.Label>
+                                <Form.Control type="text" placeholder="ex.: https://instagram.com/_your_profile"
+                                    id="instagram"
+                                    name="instagram"
+                                    value={props.user.instagram}
+                                    onChange={editFormFieldsHandler}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" >
+                                <Form.Label>LinkedIn:</Form.Label>
+                                <Form.Control type="text" placeholder="ex.: https://linkedin.com/_your_profile"
+                                    id="linkedin"
+                                    name="linkedin"
+                                    value={props.user.linkedin}
+                                    onChange={editFormFieldsHandler}
+                                />
+                            </Form.Group>
+
                             <Form.Group className="mb-3">
                                 <Form.Check
                                     type="checkbox"

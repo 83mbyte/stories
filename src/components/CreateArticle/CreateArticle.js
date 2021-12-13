@@ -2,64 +2,42 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { connect } from "react-redux";
 
-import { Modal, InputGroup, Form, Button } from "react-bootstrap";
+import {   Form, Button } from "react-bootstrap";
 
 import { actionCreatorPostArticle } from '../../redux/actions';
-import {API } from '../../services/API';
+import { API } from '../../services/API';
+import ModalWindow from "../common/ModalWindow";
 
-
-function ModalDialog(props) {
-    return (
-        <Modal
-            {...props}
-             
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header >
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Attention!
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <p>
-                    Please check the form checkbox in order to complete your Submit action.
-                </p>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
-            </Modal.Footer>
-        </Modal>
-    );
-}
+ 
 
 //TODO validation form
 const CreateArticle = (props) => {
-    const [modalShow, setModalShow] = useState(false);
+ 
+    const [show, setShow] = useState(false)
+
     let navigate = useNavigate();
 
-    let categorArray = ['Travel', 'Sport', 'Tech', 'Fashion', 'Psychology', 'WWW', 'Crime', 'Business', 'Discuss', 'Shopping', 'Art', 'Cusine', 'Media', 'Crypto', 'Medicine', '..other'];
+    let categorArray = ['Travel', 'Sport', 'Politics', 'Tech', 'Fashion', 'Psychology', 'WWW', 'Crime', 'Business', 'Discuss', 'Shopping', 'Art', 'Cusine', 'Media', 'Crypto', 'Medicine', '..other'];
 
     const createPostSubmitHandler = (e) => {
         e.preventDefault();
-        function getCurrentDate() {
+        /* function getCurrentDate() {
             let date = new Date();
             let res = date.toDateString().split(' ');
             return (`${res[2]} ${res[1]} ${res[3]}`);
-        }
+        } */
         let token = props.isLogged.accessToken;
         let formData = new FormData(e.target);
         let title = formData.get('title');
         let text = formData.get('text');
-        //let date = getCurrentDate();
         let date = Date.now();
         let authorId = props.isLogged.userId;
         let category = formData.get('category');
         let check = formData.get('checkbox');
-        
-        //let articleId = Math.random().toString(36).substr(2, 6)+'-'+authorId.substr(0,5)+'-'+Math.random().toString(36).substr(2, 4);
+        let file = formData.get('file');
 
-        if (check === 'on'){
+
+        if (check === 'on') {
             let articleToPostObject = {
                 authorId,
                 category,
@@ -72,23 +50,48 @@ const CreateArticle = (props) => {
                     views: 1,
                 }
             }
+
             API.submitNewArticle(articleToPostObject, token).then(resp => {
-                
                 let articleToDispatch = {
                     [resp.name]: { ...articleToPostObject }
                 }
                 props.postNewArticle(articleToDispatch);
+
+                if (file.size > 0 && file.size < 1048576) {
+                    console.log('SIZE:' + file.size)
+                    API.uploadImage(file, resp.name, 'articles')
+                        .then(url => {
+                            API.editArticle({ ...articleToPostObject, image: url }, resp.name, token)
+                                .then(() => {
+                                    let articleToDispatch = {
+                                        [resp.name]: { ...articleToPostObject, image: url }
+                                    }
+                                    props.postNewArticle(articleToDispatch);
+                                })
+
+
+                        })
+
+                } else {
+                    console.log('File too big')
+                }
+
                 navigate('/')
+
+
+
             });
+
+            //------
+
+
+
         } else {
-            setModalShow(true)
+            setShow(true)
         }
     }
 
-    const cancelClickHandler = (e) => {
-        e.preventDefault();
-        setModalShow(true)
-    }
+   
     return (
         <div style={{ border: '0px solid red', width: '85%', margin: '0 auto' }}>
             <h1>Create Your Post</h1>
@@ -110,12 +113,17 @@ const CreateArticle = (props) => {
                                 {categorArray.map((item) => {
                                     return <option value={item} key={item}>{item}</option>
                                 })}
- 
+
                             </Form.Select>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Article Text:</Form.Label><br />
                             <Form.Control as="textarea" name="text" rows={3} placeholder="Article Text" />
+                        </Form.Group>
+
+                        <Form.Group controlId="formFile" className="mb-3">
+                            <Form.Label>Upload image</Form.Label>
+                            <Form.Control type="file" name="file" size="sm" />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Check
@@ -129,15 +137,12 @@ const CreateArticle = (props) => {
                             <Button variant="primary" type="submit" size="lg">
                                 Submit
                             </Button>
-                            <Button variant="secondary" size="lg" onClick={cancelClickHandler}>
-                                Cancel
-                            </Button>
+
                         </div>
                     </Form>
-                    <ModalDialog
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                    />
+                   
+
+                    <ModalWindow show={show} setShow={setShow} info={['Attention!', ' Please set the form CHECKBOX in order to complete your Submit action.']} />
                 </div>
                 : 'Please login first..'
             }

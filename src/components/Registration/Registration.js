@@ -1,33 +1,36 @@
-import { auth ,storage} from '../../_firebase/firebase';
+import { auth, storage } from '../../_firebase/firebase';
 import { authAPI } from '../../services/authAPI';
 import { useNavigate } from "react-router-dom";
 import { connect } from 'react-redux';
-import { useState } from 'react'; 
+import { useState } from 'react';
 
-import { Modal, Button } from 'react-bootstrap'
-import {actionCreatorAuthLogin, actionCreatorAddNewUser, actionCreatorGetUserData} from '../../redux/actions'
+import s from './Registration.module.css';
+import { Modal, Button } from 'react-bootstrap';
+
+import { actionCreatorAuthLogin, actionCreatorAddNewUser, actionCreatorGetUserData, actionCreatorToggleIsFetching } from '../../redux/actions'
+import Loader from '../common/Loader';
 //import {API} from '../../services/API';
 
- 
+
 
 const Registration = (props) => {
     let navigate = useNavigate();
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState([''])
-    
-    const ModalMessage = (props) =>{
+
+    const ModalMessage = (props) => {
         return (
             <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>{message[0]}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>{message[1]}</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                <Modal.Header closeButton>
+                    <Modal.Title>{message[0]}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>{message[1]}</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 
@@ -35,30 +38,30 @@ const Registration = (props) => {
         setShow(false);
         navigate('/');
     };
-    
-  
+
+
     const registrationHandler = async (e) => {
-        ///////////////////////////////////////////////////////
-        //TODO : registration issue, doesn't load a correct profile page.
-        //////////////////////////////////////////////////////
+
         e.preventDefault();
+        props.toggleFetching(true);
         let formData = new FormData(e.target);
         let ent = formData.entries();
-        
-        let { email, password, fullname, about, file } = Object.fromEntries(ent);
-         
-        if (file.size===0 || file.name===""){
-            file=null
+
+        let { email, password, fullname, about, file, twitter, facebook, instagram, linkedin } = Object.fromEntries(ent);
+
+        if (file.size === 0 || file.name === "") {
+            file = null
         }
 
-        let newUser = await authAPI.registerUserAccount(auth,storage, email, password, fullname, about, file);
-       
-         if (newUser && newUser[1] !== 'error' && newUser[1]!=undefined && newUser[1]!=null) {
-            
+        let newUser = await authAPI.registerUserAccount(auth, storage, email, password, fullname, about, twitter, facebook, instagram, linkedin, file);
+        props.toggleFetching(false);
+        if (newUser && newUser[1] !== 'error' && newUser[1] != undefined && newUser[1] != null) {
+
             setMessage(["Registration complete!", "Thank you for registration!"]);
             setShow(true);
             //props.addUser(newUser[0]) 
             props.loginUser(newUser[0], newUser[1]);
+
             props.getUserProfileData(newUser[1].userId);
             /* API.getUserProfile(newUser[1].userId, newUser[1].accessToken).then((resp) => {
 
@@ -70,8 +73,8 @@ const Registration = (props) => {
 
         } else {
             setMessage(["Warning!", "Registration was NOT completed.. Try again."]);
-            setShow(true); 
-             
+            setShow(true);
+
         };
     }
 
@@ -85,36 +88,54 @@ const Registration = (props) => {
                 </div>
             </div>
             <div className="text-center">
-                <form onSubmit={registrationHandler}>
-                    <div style={{ margin: "10px 0" }}>
-                        <div style={{ margin: "0  0" }}><label>Email:</label></div>
-                        <input type="email" name="email" placeholder="ex.: email@example.com" id="email" style={{ margin: "0" }} />
+                {!props.isFetching
+                    ? <form onSubmit={registrationHandler}>
+                        <div style={{ margin: "10px 0" }}>
+                            <div style={{ margin: "0  0" }}><label>Email:</label></div>
+                            <input type="email" name="email" placeholder="ex.: email@example.com" id="email" />
 
-                    </div>
-                    <div style={{ margin: "20px 0" }}>
-                        <div style={{ margin: "0", padding: "0" }}><label>Password:</label></div>
-                        <input type="password" name="password" placeholder="Password" id="password" style={{ margin: "0" }} />
-                    </div>
-                    <div style={{ margin: "20px 0" }}>
-                        <div style={{ margin: "0", padding: "0" }}><label>Your Name:</label></div>
-                        <input type="text" name="fullname" placeholder="ex: John Doe" id="fullname" style={{ margin: "0" }} />
-                    </div>
-                    <div style={{ margin: "20px 0" }}>
-                        <div style={{ margin: "0", padding: "0" }}><label>Profile Photo:</label></div>
-                        <input type="file" name="file"  /> 
-                    </div>
-                    <div style={{ margin: "20px 0" }}>
-                        <div style={{ margin: "0", padding: "0" }}><label>A few words about You:</label></div>
-                        <textarea name="about" placeholder="Text About You" rows={3} cols={18} style={{ margin: "0" }} id="about" />
-                    </div>
-                    <div>
-                        <input type="submit" value="Register Me"></input>
-                    </div>
-                </form>
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>Password:</label></div>
+                            <input type="password" name="password" placeholder="Password" id="password" />
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>Your Name:</label></div>
+                            <input type="text" name="fullname" placeholder="ex: John Doe" id="fullname" />
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>Profile Photo:</label></div>
+                            <input type="file" name="file" />
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>A few words about You:</label></div>
+                            <textarea name="about" placeholder="Text About You" rows={3} cols={18} id="about" />
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>Your Twitter:</label></div>
+                            <input type="text" name="twitter" placeholder="Link to your Twitter" id="twitter" />
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>Your Facebook:</label></div>
+                            <input type="text" name="facebook" placeholder="Link to your Facebook" id="facebook" />
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>Your Instagram:</label></div>
+                            <input type="text" name="instagram" placeholder="Link to your Instagram" id="instagram" />
+                        </div>
+                        <div className={s.formBlock}>
+                            <div className={s.formDivLabel}><label>Your Linkedin:</label></div>
+                            <input type="text" name="linkedin" placeholder="Link to your LinkedIn" id="linkedin" />
+                        </div>
+                        <div>
+                            <input type="submit" value="Register Me"></input>
+                        </div>
+                    </form>
+                    : <Loader />}
 
             </div>
             <ModalMessage />
-            
+
         </>
     );
 }
@@ -122,7 +143,8 @@ const Registration = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isLogged: state.db.system ? state.db.system.isAuth : ""
+        isLogged: state.db.system ? state.db.system.isAuth : "",
+        isFetching: state.db.system ? state.db.system.isFetching : false
     }
 }
 
@@ -133,11 +155,13 @@ const mapDispatchToProps = (dispatch) => {
             //dispatch(actionCreatorToggleIsFetching(true));
             dispatch(actionCreatorAddNewUser(userObj));
             dispatch(actionCreatorAuthLogin(authObj));
-            
+
             //dispatch(actionCreatorToggleIsFetching(false));
         },
-        
- 
+        toggleFetching: (status) => {
+            dispatch(actionCreatorToggleIsFetching(status))
+        },
+
         getUserProfileData: (userId) => {
             //TODO thunk to get users
             //dispatch(actionCreatorToggleIsFetching(true));

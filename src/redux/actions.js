@@ -16,6 +16,13 @@ export const actionType = {
     DELETE_ARTICLE : 'DELETE_ARTICLE'
 }
 
+export const actionCreatorToggleIsFetching = (data) => {
+    return {
+        type: actionType.TOGGLE_IS_FETCHING,
+        payload: data
+    }
+}
+ 
 export const actionCreatorGetInitialState = (data) => {
     return {
         type: actionType.GET_INITIAL_STATE,
@@ -64,10 +71,12 @@ export const actionCreatorModifyProfile = (fieldName, value) => {
     }
 }
 
-export const actionCreatorSubmitModifyProfile = (name,about,userId) => {
+export const actionCreatorSubmitModifyProfile = (profile,userId) => {
     return {
         type: actionType.SUBMIT_MODIFY_PROFILE,
-        payload: {name,about,userId}
+        payload: {...profile},
+        userId,
+
     }
 }
 

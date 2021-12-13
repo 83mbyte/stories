@@ -4,15 +4,28 @@ import { actionType } from "./actions";
 const storiesApp = (state = {}, action) => {
 
     switch (action.type) {
+
         case actionType.GET_INITIAL_STATE:
             console.log('action GetInitState')
             state = action.state;
             return {
                 ...state,
             }
+
+        case actionType.TOGGLE_IS_FETCHING: {
+            console.log('toggle fetching status')
+
+            return {
+                ...state,
+                system: {
+                    ...state.system,
+                    isFetching: action.payload
+                }
+            }
+        }
         case actionType.ADD_NEW_USER:
             console.log('ADD_NEW_USER ACTION')
-             
+
             return {
                 ...state,
                 users: {
@@ -78,10 +91,10 @@ const storiesApp = (state = {}, action) => {
                 ...state,
                 users: {
                     ...state.users,
-                    [action.payload.userId]: {
-                        ...state.users[action.payload.userId],
-                        name: action.payload.name,
-                        about: action.payload.about
+                    [action.userId]: {
+                        ...state.users[action.userId],
+
+                        ...action.payload
                     }
                 }
             }

@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth"
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
+
 const BASEURL = 'https://stories-8a67d-default-rtdb.firebaseio.com';
 //TODO common function to work with responces at our api . 
 /* if (resp.status === 200) {
@@ -28,7 +29,7 @@ export const authAPI = {
             })
     },
 
-    registerUserAccount(auth, storage, email, password, name, about, image) {
+    registerUserAccount(auth, storage, email, password, name, about, twitter, facebook, instagram, linkedin, image) {
         let personObject;
 
         const addUserToDb = async (data, accessToken = null, publ) => {
@@ -55,7 +56,7 @@ export const authAPI = {
             return 'error';
         }
         const uploadFile = async (filename, accessToken) => {
-            const avatarImagesRef = ref(storage, `images/avatars/new_${filename}`);
+            const avatarImagesRef = ref(storage, `images/avatars/${filename}`);
             const metadata = {
                 contentType: image.type,
             };
@@ -80,7 +81,7 @@ export const authAPI = {
 
                             return getDownloadURL(ref(storage, snapshot.metadata.fullPath))
                                 .then(url => {
-                                    let personObject = { [userId]: { name, about, userId, avatar: url ? url : '/images/personDefault.jpg', email, dateRegistration: regDate } };
+                                    let personObject = { [userId]: { name, about, userId, avatar: url ? url : '/images/personDefault.jpg', email, dateRegistration: regDate, twitter, facebook, instagram, linkedin } };
 
                                     //add user
                                     addUserToDb(personObject, accessToken);
@@ -90,7 +91,7 @@ export const authAPI = {
 
                                     return [
                                         {
-                                            name, about, userId, avatar: url ? url : '/images/personDefault.jpg', email, dateRegistration: regDate
+                                            name, about, userId, avatar: url ? url : '/images/personDefault.jpg', email, dateRegistration: regDate, twitter, facebook, instagram, linkedin
                                         },
                                         {
                                             userId,
@@ -103,7 +104,7 @@ export const authAPI = {
                 }
                 else {
                     //console.log('image NOT provided')
-                    let personObject = { [userId]: { name, about, userId, avatar:'/images/personDefault.jpg', email, dateRegistration: regDate } };
+                    let personObject = { [userId]: { name, about, userId, avatar:'/images/personDefault.jpg', email, dateRegistration: regDate, twitter, facebook, instagram, linkedin } };
 
                     //add user
                     addUserToDb(personObject, accessToken);
@@ -113,7 +114,7 @@ export const authAPI = {
 
                     return [
                         {
-                            name, about, userId, avatar: '/images/personDefault.jpg', email, dateRegistration: regDate
+                            name, about, userId, avatar: '/images/personDefault.jpg', email, dateRegistration: regDate,  twitter, facebook, instagram, linkedin
                         },
                         {
                             userId,
