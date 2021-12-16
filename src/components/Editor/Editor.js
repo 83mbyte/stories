@@ -13,9 +13,7 @@ const Editor = (props) => {
         console.log('editFormFieldsHandler');
         e.preventDefault();
          
-        ///
-
-        //Small & very Simple Filter for user input
+        //Small & very SIMPLE Filter for user input
         let forbiddenWordsArray = [
             "<script>",
             "</script>",
@@ -33,7 +31,7 @@ const Editor = (props) => {
             "<ScripT>",
             "<javascript:",
             "<script",
-            "</script"
+            "</script", "alert(","alert()", "alert(1)"
         ]
         let text = e.target.value;
         forbiddenWordsArray.forEach(forbiddenWord => {
@@ -44,14 +42,12 @@ const Editor = (props) => {
             }
         });
 
-        ///
-
         props.editArticleData(e.target.name, text, articleId)
     }
 
     const saveEditedArticle = (e) =>{
         e.preventDefault();
-       //TODO - make some filters of vulnerable words/htmltags and so on.. before submiting
+       
 
         API.editArticle( props.articles[articleId], articleId, props.isLogged.accessToken).then(resp => {
             if (resp !== 'error' && resp !==undefined) {
