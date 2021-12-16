@@ -1,4 +1,15 @@
-# Getting Started with Create React App
+# React based application - "Stories"
+This project was created as an open platform for the articles publishing.
+
+## Info about functionality available for the types of users.
+##### Non-auth user functionality
+For the non-authenticated users all the articles are open with a limited functionality (basically it's read-only). 
+
+##### Authenticated User functionality
+Registered and logged users are able to read and to mark with 'like' the articles; create/edit/delete their own articles, upload images, edit own profile details. Each article counts so-called "VIEWS" or "VISITS" param when a __logged user__ reads the article.
+
+-------
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

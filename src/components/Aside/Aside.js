@@ -26,6 +26,7 @@ const Aside = (props) => {
 		<>
 			<li><Link to="/registration">Register</Link></li>
 			<li><Link to="/login">Login</Link><br /><br /></li>
+			
 		</>
 	)
 	

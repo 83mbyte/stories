@@ -1,0 +1,13 @@
+.divCreateArticle {
+     
+    width: 85%;
+    margin: 0 auto
+}
+.divForm {
+    width:  85%;
+}
+
+.divTitle {
+    font-weight: bold;
+    color: black;
+}

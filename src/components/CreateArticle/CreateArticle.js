@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { connect } from "react-redux";
 
+import s from './CreateArticle.module.css';
 import {   Form, Button } from "react-bootstrap";
 
 import { actionCreatorPostArticle } from '../../redux/actions';
@@ -82,10 +83,6 @@ const CreateArticle = (props) => {
 
             });
 
-            //------
-
-
-
         } else {
             setShow(true)
         }
@@ -93,13 +90,13 @@ const CreateArticle = (props) => {
 
    
     return (
-        <div style={{ border: '0px solid red', width: '85%', margin: '0 auto' }}>
+        <div className={s.divCreateArticle}>
             <h1>Create Your Post</h1>
             {props.isLogged
-                ? <div style={{ border: '0px solid red', width: '85%' }}>
+                ? <div className={s.divForm}>
                     <Form onSubmit={createPostSubmitHandler}>
                         <Form.Group className="mb-3" >
-                            <Form.Label style={{ fontWeight: "bold", color: "black" }}>Post Title:</Form.Label>
+                            <Form.Label className={ s.divTitle}>Post Title:</Form.Label>
                             <Form.Control type="text" placeholder="ex.: Article #1"
                                 id="title"
                                 name="title"

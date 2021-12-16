@@ -54,7 +54,7 @@ const IndexPage = (props) => {
                      
                     let elem = Object.keys(element)[0]
                     return (
-                        <>
+                       
                             <IndexArticlesItem key={elem}
                                 articleData={props.indexData[elem]}
                                 
@@ -62,9 +62,7 @@ const IndexPage = (props) => {
                                 likesCount={getLikesCount(elem)}
                                 views={getViewsCount(elem)}
                                 author={props.authors[props.indexData[elem].authorId]}
-                            />
-                        </>
-
+                            />                        
                     ) 
                 }) :  <Loader />}
 

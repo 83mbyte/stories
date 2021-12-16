@@ -19,7 +19,7 @@ const ProfileContainer = (props) => {
             }
             return null
         }).filter(item => item != null);
-        console.log('===!!=== '+userArticles)
+        //console.log('===!!=== '+userArticles)
         return userArticles
     }
 

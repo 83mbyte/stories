@@ -9,7 +9,7 @@ import Login from './components/Login/Login';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import Registration from './components/Registration/Registration';
 import SingleArticleContainer from './components/SingleArticle/SingleArticleContainer';
- 
+
  
 function App() {
   return (
@@ -29,9 +29,8 @@ function App() {
               <Route path="/author/:authorId" element={<AuthorContainer />} />
               <Route path="/profile" element={<ProfileContainer />} />
               <Route path="/create" element={<CreateArticle />} />
-              <Route path="/editor" element={<Editor />} />
-
-              
+              <Route path="/editor/:articleId" element={<Editor />} />
+ 
             </Routes>
 
 
