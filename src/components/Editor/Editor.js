@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { useParams , useNavigate} from "react-router";
 
 import { actionCreatorEditArticle } from '../../redux/actions';
-import {API} from '../../services/API'
+import {API} from '../../services/API';
+
 const Editor = (props) => {
     let params = useParams();
     let navigate = useNavigate();

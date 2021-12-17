@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { actionCreatorAuthLogin, actionCreatorAddNewUser, actionCreatorGetUserData, actionCreatorToggleIsFetching } from '../../redux/actions';
 import { authAPI } from '../../services/authAPI';
 import Loader from '../common/Loader';
+import ModalWindow from '../common/ModalWindow';
 
 
 
@@ -20,26 +21,7 @@ const Registration = (props) => {
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState([''])
 
-    const ModalMessage = (props) => {
-        return (
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{message[0]}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>{message[1]}</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-    const handleClose = () => {
-        setShow(false);
-        navigate('/');
-    };
+    
 
     const onSubmitForm = (data) => {
 
@@ -234,7 +216,7 @@ const Registration = (props) => {
                     : <Loader />}
 
             </div>
-            <ModalMessage />
+            <ModalWindow show={show} setShow={setShow} info={message} goTo={'/'} />
 
         </>
     );

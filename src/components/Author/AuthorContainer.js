@@ -16,14 +16,12 @@ const AuthorContainer = (props) => {
                 : <Loader />}
         </>
     );
-
 }
 
 const mapStateToProps = (state) => {
 
     return {
         users: state.db.users
-
     }
 }
 

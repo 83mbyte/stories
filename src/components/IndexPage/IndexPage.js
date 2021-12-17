@@ -57,7 +57,6 @@ const IndexPage = (props) => {
                        
                             <IndexArticlesItem key={elem}
                                 articleData={props.indexData[elem]}
-                                
                                 articleId={elem}
                                 likesCount={getLikesCount(elem)}
                                 views={getViewsCount(elem)}

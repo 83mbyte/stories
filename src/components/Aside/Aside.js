@@ -51,13 +51,14 @@ const Aside = (props) => {
 			<div className="colorlib-footer">
 				{/* <p>
 					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i className="icon-heart" aria-hidden="true"></i> by <Link to="https://colorlib.com" target="_blank">Colorlib</Link>
-				</p> */}
+				</p> 
 				<ul>
 					<li><Link to="#"><i className="icon-facebook"></i></Link></li>
 					<li><Link to="#"><i className="icon-twitter"></i></Link></li>
 					<li><Link to="#"><i className="icon-instagram"></i></Link></li>
 					<li><Link to="#"><i className="icon-linkedin"></i></Link></li>
 				</ul>
+				*/}
 
 			</div>
 		</div>
