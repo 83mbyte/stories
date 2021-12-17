@@ -1,11 +1,16 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 
 
 const ModalWindow = (props) => {
-    
+    let navigate = useNavigate();
     const handleClose = ()=>{
-        props.setShow(false)
+        props.setShow(false);
+        if (props.goTo && props.goTo!=undefined){
+            navigate(props.goTo);
+            
+        }
     }
 
     return (
