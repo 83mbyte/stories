@@ -8,6 +8,9 @@ For the non-authenticated users all the articles are open with a limited functio
 ##### Authenticated User functionality
 Registered and logged users are able to read and to mark with 'like' the articles; create/edit/delete their own articles, upload images, edit own profile details. Each article counts so-called "VIEWS" or "VISITS" param when a __logged user__ reads the article.
 
+## Watch Demo ##
+https://stories-8a67d.web.app/
+
 -------
 ## Getting Started with Create React App
 
@@ -45,5 +48,3 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Watch Demo ##
-https://stories-8a67d.web.app/
