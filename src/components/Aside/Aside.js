@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import { auth } from '../../_firebase/firebase';
 import {actionCreatorAuthLogout} from '../../redux/actions';
 import { authAPI } from '../../services/authAPI';
-
-
-
+  
 const Aside = (props) => {
+	 
 	const logoutHandler = () =>{
 		authAPI.logOut(auth).then (()=>{
 			console.log('LogOut Success!');
@@ -25,7 +24,7 @@ const Aside = (props) => {
 	let guestLinksLi = (
 		<>
 			<li><Link to="/registration">Register</Link></li>
-			<li><Link to="/login">Login</Link><br /><br /></li>
+			<li><Link to="/login" onClick={props.closeMenu}>Login</Link><br /><br /></li>
 			
 		</>
 	)

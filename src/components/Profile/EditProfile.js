@@ -3,7 +3,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 import s from './ProfileContainer.module.css';
-import { Accordion, Form, Button, Modal, ListGroup } from "react-bootstrap";
+
+import Accordion from "react-bootstrap/Accordion";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import ListGroup from "react-bootstrap/ListGroup";
+
+import ModalWindow from '../common/ModalWindow';
+
 
 import { API } from '../../services/API';
 
@@ -33,6 +41,10 @@ const EditProfile = (props) => {
     let navigate = useNavigate();
     const [show, setShow] = useState([false, '']);
 
+
+    const [checked, setChecked] = useState(false);
+    const [message, setMessage] = useState([''])
+
     const handleClose = () => {
         setShow([false, '', '']);
 
@@ -59,31 +71,40 @@ const EditProfile = (props) => {
 
         let newProfileData = { name, about, twitter, facebook, instagram, linkedin }
 
-        if (check == 'on') {
+        if (check === 'on') {
             //console.log(props.user.userId + ' -==- ' + props.accessToken);
-            let avatar = "/images/personDefault.jpg";
-            if (file.size > 0 || file.name != "") {
-                console.log('f name: ' + file.name);
+            //let avatar = "/images/personDefault.jpg";
+            if (file.size > 0 || file.name !== "") {
+
 
                 API.uploadImage(file, props.user.userId, 'avatars')
                     .then(url => {
-                        API.modifyProfile({ ...newProfileData, avatar: url }, props.user.userId, props.accessToken)
-                            .then(() => {
-                                props.submitModifiedProfile({ ...newProfileData, avatar: url }, props.user.userId);
-                                navigate('/');
-                            });
+                        if (url && url !== null && url !== undefined) {
+                            API.modifyProfile({ ...newProfileData, avatar: url }, props.user.userId, props.accessToken)
+                                .then((resp) => {
+                                    if (resp && resp !== 'error') {
+                                        props.submitModifiedProfile({ ...newProfileData, avatar: url }, props.user.userId);
+                                        navigate('/');
+                                    }
+                                });
+                        }
                     })
 
             } else {
                 API.modifyProfile(newProfileData, props.user.userId, props.accessToken)
-                    .then(() => {
-                        props.submitModifiedProfile(newProfileData, props.user.userId);
-                        navigate('/');
+                    .then((resp) => {
+                        if (resp && resp !== 'error'){
+                            props.submitModifiedProfile(newProfileData, props.user.userId);
+                            navigate('/');
+                        }
                     });
             }
 
 
 
+        } else {
+            setMessage(['Warning!', 'Please set the form CHECKBOX to proceed.'])
+            setChecked(true);
         }
     }
 
@@ -92,12 +113,12 @@ const EditProfile = (props) => {
     }
 
     const submitDeleteArticle = (articleId) => {
-        
+
         let regexFilter = /(?:articles%2F)([-][\w\d]+.[a-z]+)(?:\?)/g;
         let filenameToDelete;
 
         props.articles.forEach(element => {
-            
+
             if (Object.keys(element)[0] === articleId) {
 
                 filenameToDelete = regexFilter.exec(element[articleId].image)[1];
@@ -198,9 +219,7 @@ const EditProfile = (props) => {
                                 <Button variant="primary" size="lg" type="submit">
                                     Update Profile
                                 </Button>
-                                <Button variant="secondary" size="lg">
-                                    cancel
-                                </Button>
+
                             </div>
                         </Form>
 
@@ -250,6 +269,8 @@ const EditProfile = (props) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            <ModalWindow show={checked} setShow={setChecked} info={message} />
 
 
 

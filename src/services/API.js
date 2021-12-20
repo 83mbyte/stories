@@ -91,7 +91,7 @@ export const API = {
         });
 
         //delete article image from storage
-        if (resp.status === 200 && (filename!=undefined && filename!=null)) {
+        if (resp.status === 200 && (filename!==undefined && filename!==null)) {
             
             const desertRef = ref(storage, `images/articles/${filename}`);
             // Delete the file

@@ -1,0 +1,10 @@
+.divLoaderContainer {
+    width: 100%; 
+    text-align: center
+}
+
+.divLoaderImage {
+    width: 200px; 
+    height: 200px;
+     margin: 0 auto;
+}

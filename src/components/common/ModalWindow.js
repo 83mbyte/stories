@@ -7,14 +7,14 @@ const ModalWindow = (props) => {
     let navigate = useNavigate();
     const handleClose = ()=>{
         props.setShow(false);
-        if (props.goTo && props.goTo!=undefined){
+        if (props.goTo && props.goTo!==undefined){
             navigate(props.goTo);
             
         }
     }
 
     return (
-        <Modal show={props.show} onHide={handleClose}>
+        <Modal show={props.show} onHide={handleClose} >
             <Modal.Header closeButton>
                 <Modal.Title>{props.info[0]}</Modal.Title>
             </Modal.Header>

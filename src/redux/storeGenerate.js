@@ -1,8 +1,9 @@
 
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { actionCreatorGetInitialState } from './actions';
+import { actionCreatorAuthLogin, actionCreatorGetInitialState, actionCreatorGetLoggedUserData } from './actions';
 import storiesApp from '../redux/reducers';
+import API from '../services/API';
 
 export function getAndSetInitialState(store) {
 
@@ -21,9 +22,22 @@ export function getAndSetInitialState(store) {
     }).then(resp => {
       //set state
       store.dispatch(actionCreatorGetInitialState(resp));
-
+      
       /* remove loader - dispatch action */
       // store.dispatch(actionCreatorToggleIsFetching(false));
+    }).then (()=>{
+      if (sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]')){
+         
+        let sessionObj = JSON.parse(sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]') );
+         let userObj = {userId: sessionObj.uid, email:sessionObj.email, accessToken:sessionObj.stsTokenManager.accessToken}
+        store.dispatch(actionCreatorAuthLogin(userObj));
+        API.getUserProfile(userObj.userId, userObj.accessToken).then((resp) => {
+          if (resp !== 'error' && resp !== undefined) {
+              store.dispatch(actionCreatorGetLoggedUserData(resp));
+              //navigate(`/profile`);
+          }
+      })
+      }
     });
 }
 

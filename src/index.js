@@ -8,14 +8,13 @@ import reportWebVitals from './reportWebVitals';
 
 import store from './redux/storeGenerate';
 import { Provider } from "react-redux";
-
-/* Don't forget to remove window.store */
-window.store = store; // just a debugging helper
+import ScrollToTop from "../src/components/common/ScrollToTop";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>  {/* create Context */}
+      <ScrollToTop />
         <App />
       </Provider>
     </BrowserRouter>

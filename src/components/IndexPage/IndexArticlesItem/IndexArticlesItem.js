@@ -16,13 +16,13 @@ const IndexArticlesItem = ({ articleData, author, articleId, likesCount, views }
                 <div className="text text-2 pt-2 mt-3">
                     <span className="category mb-3 d-block">
                         {/* Link to Category ? */}
-                        <Link to="#">{articleData.category}</Link>
+                        {articleData.category}
                     </span>
                     <h3 className="mb-4"><Link to={`/article/${articleId}`}>{articleData.title}</Link></h3>
                     <p className="mb-4"> {(articleData.text).substr(0, 160)}...</p>
                     <div className="author mb-4 d-flex align-items-center">
 
-                        {/* Links to Author profile? */}
+                        {/* Link to Author profile */}
 
                         <Link to={`/author/${author.userId}`} className="img" style={{ backgroundImage: `url(${author.avatar})` }}></Link>
                         <div className="ml-3 info">

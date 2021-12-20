@@ -1,6 +1,6 @@
 
 import { connect } from 'react-redux';
-import Loader from '../common/Loader';
+import Loader from '../common/Loader/Loader';
 import IndexArticlesItem from './IndexArticlesItem/IndexArticlesItem';
 
 
@@ -24,7 +24,8 @@ const IndexPage = (props) => {
     const sortingNewToOld = (articlesToSort) => {
         let arrayToSort = [];
         Object.keys(articlesToSort).map(item => {
-            arrayToSort.push({ [item]: articlesToSort[item] })
+            return arrayToSort.push({ [item]: articlesToSort[item] })
+
         });
         arrayToSort.sort((a, b) => b[Object.keys(b)].date - a[Object.keys(a)].date)
       
@@ -45,7 +46,7 @@ const IndexPage = (props) => {
             <div className="row justify-content-center mb-5 pb-2">
                 <div className="col-md-7 heading-section text-center ">
                     <h2 className="mb-4">Articles</h2>
-                    <p>A list of our author's articles. Keep reading!</p>
+                    <p>Acutus debemus disciplinae do explicabo extremo.</p>
                 </div>
             </div>
             <div className="row">

@@ -14,7 +14,7 @@ const ProfileContainer = (props) => {
 
     const ua = () => {
        let userArticles= Object.keys(props.articles).map( (item) => {
-            if (props.articles[item].authorId == props.isLogged.userId) {
+            if (props.articles[item].authorId === props.isLogged.userId) {
                 return { [item]: props.articles[item] }
             }
             return null

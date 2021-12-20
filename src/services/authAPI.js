@@ -1,5 +1,5 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth"
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, setPersistence, browserSessionPersistence } from "firebase/auth"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 const BASEURL = 'https://stories-8a67d-default-rtdb.firebaseio.com';
@@ -14,23 +14,31 @@ return 'error' */
 export const authAPI = {
 
     loginUserAccount(auth, email, password) {
-        return signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                return { userId: user.uid, email: user.email, accessToken: user.accessToken }
+        return setPersistence(auth, browserSessionPersistence)
+            .then(() => {
+                return signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed in 
 
-                // ...
+
+                        if (userCredential.user != null) {
+                            const user = userCredential.user;
+                            return { userId: user.uid, email: user.email, accessToken: user.accessToken }
+                        }
+                        else {
+                            return 'Not a user'
+                        }
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        console.log(errorCode + ' - ' + errorMessage);
+                    })
             })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode + ' - ' + errorMessage);
-            })
+
     },
 
     registerUserAccount(auth, storage, email, password, name, about, twitter, facebook, instagram, linkedin, image) {
-        let personObject;
 
         const addUserToDb = async (data, accessToken = null, publ) => {
             let url = `${BASEURL}/_private/users.json/?auth=${accessToken}`
@@ -73,7 +81,7 @@ export const authAPI = {
                 let regDate = Date.now();
                 let userId = user.uid;
                 let accessToken = user.accessToken;
-                
+
                 if (image) {
                     //console.log('image provided..')
                     return uploadFile(userId, accessToken)
@@ -104,7 +112,7 @@ export const authAPI = {
                 }
                 else {
                     //console.log('image NOT provided')
-                    let personObject = { [userId]: { name, about, userId, avatar:'/images/personDefault.jpg', email, dateRegistration: regDate, twitter, facebook, instagram, linkedin } };
+                    let personObject = { [userId]: { name, about, userId, avatar: '/images/personDefault.jpg', email, dateRegistration: regDate, twitter, facebook, instagram, linkedin } };
 
                     //add user
                     addUserToDb(personObject, accessToken);
@@ -114,7 +122,7 @@ export const authAPI = {
 
                     return [
                         {
-                            name, about, userId, avatar: '/images/personDefault.jpg', email, dateRegistration: regDate,  twitter, facebook, instagram, linkedin
+                            name, about, userId, avatar: '/images/personDefault.jpg', email, dateRegistration: regDate, twitter, facebook, instagram, linkedin
                         },
                         {
                             userId,
@@ -131,7 +139,7 @@ export const authAPI = {
                 const errorMessage = error.message;
                 console.log('ErrorCode: ' + errorCode);
                 console.log('ErrorMessage: ' + errorMessage);
-                
+
             });
 
     },

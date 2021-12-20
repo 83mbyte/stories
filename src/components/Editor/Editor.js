@@ -1,4 +1,5 @@
-import {Form, Button} from 'react-bootstrap'
+import  Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux';
 import { useParams , useNavigate} from "react-router";
 

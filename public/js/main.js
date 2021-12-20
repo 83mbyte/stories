@@ -1,7 +1,7 @@
-/*  AOS.init({
+/* AOS.init({
  	duration: 800,
  	easing: 'slide'
- }); */
+ });  */
 
 (function($) {
 

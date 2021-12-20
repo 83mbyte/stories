@@ -3,6 +3,7 @@ import EditProfile from "./EditProfile";
 import SocialLinks from "./SocialLinks";
 
 const Profile = (props) => {
+    //console.log(JSON.parse(sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]')))
     return (
         <>
             {props.isLogged

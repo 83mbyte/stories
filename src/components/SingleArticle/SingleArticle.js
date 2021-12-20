@@ -11,6 +11,7 @@ const SingleArticle = ({ article, author, articleId, isLogged, likeArticle, unli
             API.incrementView(articleId, isLogged.userId, isLogged.accessToken, views+1)
             countView(articleId)
         }
+ 
     },[]);
 
     const likeClickHandler = (e) => {
@@ -57,14 +58,16 @@ const SingleArticle = ({ article, author, articleId, isLogged, likeArticle, unli
                 : <div style={{ width: "75%", margin: "0 auto", textAlign: "center", fontSize: "14px", color: "#D1D1D1" }}>(Please note - 'Likes' functionality is available to the logged users <span style={{textDecoration:"underline"}}>only</span> )</div>
             }
             <br /><hr></hr>
-            <div className="about-author d-flex p-4 bg-light" >
-                <div className="bio mr-5">
-                    <img src={author.avatar} alt={`${author.name} avatar`} className="img-fluid mb-4" />
+            <div className="about-author d-flex p-4 bg-light">
+                <div className="bio mr-5"  style={{width: "45%"}}>
+                    <img src={author.avatar} alt={`${author.name} avatar`} className="img-fluid mb-4"  />
                 </div>
 
-                <div className="desc">
+                <div className="desc" style={{width: "55%"}}>
+                     
                     <h3>{author.name}</h3>
-                    <p>{author.about}</p>
+                     
+                    <p>{(author.about).substr(0, 200)}...</p>
                 </div>
             </div>
         </>

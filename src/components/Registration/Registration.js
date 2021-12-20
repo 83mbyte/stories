@@ -1,23 +1,23 @@
 import { auth, storage } from '../../_firebase/firebase';
 
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+ 
 import { connect } from 'react-redux';
 
 import s from './Registration.module.css';
-import { Modal, Button } from 'react-bootstrap';
+
 import { useForm } from "react-hook-form";
 
 import { actionCreatorAuthLogin, actionCreatorAddNewUser, actionCreatorGetUserData, actionCreatorToggleIsFetching } from '../../redux/actions';
 import { authAPI } from '../../services/authAPI';
-import Loader from '../common/Loader';
+import Loader from '../common/Loader/Loader';
 import ModalWindow from '../common/ModalWindow';
 
 
 
 const Registration = (props) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    let navigate = useNavigate();
+     
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState([''])
 
@@ -40,9 +40,9 @@ const Registration = (props) => {
     const registerNewUser = async (email, password, fullname, about, twitter, facebook, instagram, linkedin, file) => {
         let newUser = await authAPI.registerUserAccount(auth, storage, email, password, fullname, about, twitter, facebook, instagram, linkedin, file);
         props.toggleFetching(false);
-        if (newUser && newUser[1] !== 'error' && newUser[1] != undefined && newUser[1] != null) {
+        if (newUser && newUser[1] !== 'error' && newUser[1] !== undefined && newUser[1] !== null) {
 
-            setMessage(["Registration complete!", "Thank you for registration!"]);
+            setMessage(["Thank you!","Registration complete!"]);
             setShow(true);
             props.loginUser(newUser[0], newUser[1]);
             props.getUserProfileData(newUser[1].userId);
@@ -86,7 +86,8 @@ const Registration = (props) => {
                                     {
                                         required: 'This is required.',
                                         pattern: {
-                                            value: /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i,
+                                            /* value: /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i, */
+                                            value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                                             message: 'Provide a correct email.'
                                         }
                                     })}

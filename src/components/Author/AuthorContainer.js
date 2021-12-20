@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { useParams } from "react-router";
 
-import Loader from "../common/Loader";
+import Loader from "../common/Loader/Loader";
 import AuthorInfo from "./AuthorInfo";
 
 const AuthorContainer = (props) => {
