@@ -1,8 +1,29 @@
-.errorMessage {
-    color: red;
-    font-size: 10px;
-}
+
 
 .divButton {
     margin: 5px auto;
+}
+
+.formBlock { 
+    margin: 5px 0;         
+}
+
+.formBlock input, textarea{ 
+    border: 1px dashed #000;
+    margin-bottom: 20px;
+    width: 275px;
+}
+ 
+.formDivLabel { 
+    margin: 0;
+    padding: 0 ;
+    color: #000;
+    line-height: 10px;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 10px;
+    margin-top: -15px;
+    margin-bottom: 15px;
 }

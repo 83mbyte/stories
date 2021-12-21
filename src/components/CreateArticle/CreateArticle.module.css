@@ -7,7 +7,14 @@
     width:  85%;
 }
 
-.divTitle {
-    font-weight: bold;
+.formLabel {
+     
     color: black;
+}
+
+form {
+    color: black
+}
+.formItem {
+    border:1px dashed black;
 }

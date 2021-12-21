@@ -11,6 +11,7 @@ import { actionCreatorAuthLogin, actionCreatorGetLoggedUserData } from '../../re
 import { authAPI } from '../../services/authAPI';
 import { API } from '../../services/API';
 import ModalWindow from "../common/ModalWindow";
+import { Zoom } from "react-awesome-reveal";
 
 
 
@@ -25,9 +26,9 @@ const Login = (props) => {
 
         authAPI.loginUserAccount(auth, data.email, data.password)
             .then(resp => {
-                 
-                if (resp !== undefined && resp !== null && resp!=="Not a user" && typeof(resp)==='object') {
-                    
+
+                if (resp !== undefined && resp !== null && resp !== "Not a user" && typeof (resp) === 'object') {
+
                     props.loginUser(resp);
                     API.getUserProfile(resp.userId, resp.accessToken).then((resp) => {
                         if (resp !== 'error' && resp !== undefined) {
@@ -43,10 +44,10 @@ const Login = (props) => {
 
 
     const NOTLOGGED = (<div className="row justify-content-center">
-  
+
         <form onSubmit={handleSubmit(onSubmitForm)}>
-            <div>
-                <label htmlFor="email">Email: </label><br />
+            <div className={s.formBlock}>
+                <div className={s.formDivLabel}><label htmlFor="email">Email: </label></div>
                 <input type="email" id="email"
                     {...register('email',
                         {
@@ -62,8 +63,8 @@ const Login = (props) => {
                 </input>
                 {errors.email && <div className={s.errorMessage}>{errors.email.message}</div>}
             </div>
-            <div>
-                <label htmlFor="passsword">Password:</label><br />
+            <div className={s.formBlock}>
+                <div className={s.formDivLabel}><label htmlFor="passsword">Password:</label></div>
                 <input type="password" id="password"
                     {...register('password',
                         {
@@ -80,16 +81,18 @@ const Login = (props) => {
     )
     return (
         <>
-            <div className="row justify-content-center mb-5 pb-2">
-                <div className="col-md-7 heading-section text-center ">
-                    <h2 className="mb-4">Please login</h2>
-                    <p>Provide your Email and Password in order to post your articles.</p>
+            <Zoom cascade>
+                <div className="row justify-content-center mb-5 pb-2">
+                    <div className="col-md-7 heading-section text-center ">
+                        <h2 className="mb-4">Please login</h2>
+                        <p>Provide your Email and Password in order to post your articles.</p>
+                    </div>
                 </div>
-            </div>
-            <div className="text-center">
-                {/*  {props.isLogged === null || props.isLogged === "" ? <h1>Login page</h1> : <h1>You are logged already</h1>} */}
-                {props.isLogged === null || props.isLogged === "" ? NOTLOGGED : ''}
-            </div>
+                <div className="text-center">
+                    {/*  {props.isLogged === null || props.isLogged === "" ? <h1>Login page</h1> : <h1>You are logged already</h1>} */}
+                    {props.isLogged === null || props.isLogged === "" ? NOTLOGGED : ''}
+                </div>
+            </Zoom>
             <ModalWindow show={show} setShow={setShow} info={['Warning', 'The provided Email/Password are wrong. Please try again!']} />
         </>
     );

@@ -1,3 +1,4 @@
+import { Zoom, Flip} from "react-awesome-reveal";
 import SocialLinks from "../Profile/SocialLinks";
 
 const AuthorInfo = (props) => {
@@ -7,6 +8,7 @@ const AuthorInfo = (props) => {
             <div className="hero-wrap hero-wrap-2 js-fullheight"   >
 
                 <div className="js-fullheight d-flex justify-content-center align-items-center">
+                    <Flip triggerOnce>
                     <div className="col-md-8 text text-center">
                         <div className="img mb-4" style={{ backgroundImage: `url(${props.user.avatar})` }} ></div>
                         <div className="desc">
@@ -25,6 +27,7 @@ const AuthorInfo = (props) => {
                             />
                         </div>
                     </div>
+                    </Flip>
                 </div>
             </div>
         </section>

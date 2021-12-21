@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { auth } from '../../_firebase/firebase';
 import {actionCreatorAuthLogout} from '../../redux/actions';
 import { authAPI } from '../../services/authAPI';
+import { Bounce, Rotate, Zoom , Fade} from 'react-awesome-reveal';
   
 const Aside = (props) => {
 	 
@@ -32,7 +33,7 @@ const Aside = (props) => {
 
 	return (
 		<div id="colorlib-aside" role="complementary" className="js-fullheight text-center">
-			<h1 id="colorlib-logo"><Link to="/">STORIES<span>.</span></Link></h1>
+			<Zoom cascade triggerOnce><h1 id="colorlib-logo"><Link to="/">STORIES<span>.</span></Link></h1>
 			<nav id="colorlib-main-menu" role="navigation">
 				<ul>
 					{/* //TODO  active link style */}
@@ -46,6 +47,7 @@ const Aside = (props) => {
 				 
 				</ul>
 			</nav>
+			</Zoom>
 
 			<div className="colorlib-footer">
 				{/* <p>

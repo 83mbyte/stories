@@ -1,15 +1,17 @@
  
+import { Flip } from "react-awesome-reveal";
 import EditProfile from "./EditProfile";
 import SocialLinks from "./SocialLinks";
 
 const Profile = (props) => {
-    //console.log(JSON.parse(sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]')))
+     
     return (
         <>
             {props.isLogged
                 ? <section className="ftco-section">
                     <div className="hero-wrap hero-wrap-2 js-fullheight"   >
 
+                        <Flip triggerOnce>
                         <div className="js-fullheight d-flex justify-content-center align-items-center">
                             <div className="col-md-8 text text-center">
                                 <div className="img mb-4" style={{ backgroundImage: `url(${props.user.avatar})` }} ></div>
@@ -31,6 +33,7 @@ const Profile = (props) => {
                                 </div>
                             </div>
                         </div>
+                        </Flip>
                     </div>
 
                     <EditProfile

@@ -12,6 +12,7 @@ import { actionCreatorAuthLogin, actionCreatorAddNewUser, actionCreatorGetUserDa
 import { authAPI } from '../../services/authAPI';
 import Loader from '../common/Loader/Loader';
 import ModalWindow from '../common/ModalWindow';
+import { Zoom } from 'react-awesome-reveal';
 
 
 
@@ -70,13 +71,14 @@ const Registration = (props) => {
 
     return (
         <>
-            <div className="row justify-content-center mb-5 pb-2">
-                <div className="col-md-7 heading-section text-center ">
+            <Zoom triggerOnce cascade>
+            <div className="row justify-content-center mb-5 pb-2" >
+                <div className="col-md-7 heading-section text-center " >
                     <h2 className="mb-4">Create your account.</h2>
-                    <p>Feel the form with your email, password, etc.</p>
+                    <p >Feel the form with your email, password, etc.</p>
                 </div>
             </div>
-            <div className="text-center">
+            <div className="text-center"  >
                 {!props.isFetching
                     ? <form onSubmit={handleSubmit(onSubmitForm)}>
                         <div className={s.formBlock}>
@@ -84,7 +86,7 @@ const Registration = (props) => {
                             <input type="email" placeholder="ex.: email@example.com" id="email"
                                 {...register('email',
                                     {
-                                        required: 'This is required.',
+                                        required: 'Required field.',
                                         pattern: {
                                             /* value: /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i, */
                                             value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -101,7 +103,7 @@ const Registration = (props) => {
                                 {
                                 ...register('password',
                                     {
-                                        required: 'This is required.',
+                                        required: 'Required field.',
                                         minLength: { value: 4, message: 'Min.length: 4' }
                                     })
                                 }
@@ -113,7 +115,7 @@ const Registration = (props) => {
                             <input type="text" placeholder="ex: John Doe" id="fullname"
                                 {
                                 ...register('fullname', {
-                                    required: 'This is required.',
+                                    required: 'Required field.',
                                     pattern: {
                                         value: /^[A-Z][a-zA-Z]{2,}(?: [A-Z][a-zA-Z]*){0,2}$/,
                                         message: 'Provide your name. (ex.: John Dowee)'
@@ -136,7 +138,7 @@ const Registration = (props) => {
                         </div>
                         <div className={s.formBlock}>
                             <div className={s.formDivLabel}><label>A few words about You:</label></div>
-                            <textarea placeholder="Text About You" rows={3} cols={18} id="about"
+                            <textarea placeholder="Text About You" rows={5} cols={28} id="about"
                                 {
                                 ...register('about', {
                                     minLength: {
@@ -217,6 +219,7 @@ const Registration = (props) => {
                     : <Loader />}
 
             </div>
+            </Zoom>
             <ModalWindow show={show} setShow={setShow} info={message} goTo={'/'} />
 
         </>

@@ -1,5 +1,6 @@
 import s from '../IndexPage.module.css';
 import { Link } from "react-router-dom";
+import { Zoom, Fade } from 'react-awesome-reveal';
 
 const IndexArticlesItem = ({ articleData, author, articleId, likesCount, views }) => {
 
@@ -11,6 +12,7 @@ const IndexArticlesItem = ({ articleData, author, articleId, likesCount, views }
     }
     return (
         <div className="col-md-4">
+            <Zoom triggerOnce >
             <div className="blog-entry">
                 <Link to={`/article/${articleId}`} className="img img-2" style={{ backgroundImage: `url(${articleData.image})` }}></Link>
                 <div className="text text-2 pt-2 mt-3">
@@ -42,11 +44,14 @@ const IndexArticlesItem = ({ articleData, author, articleId, likesCount, views }
                             </p>
                         </div>
                         <div className="half">
+                            <Fade duration={1500}>
                             <p><Link to={`/article/${articleId}`} className="btn py-2">Continue Reading <span className="ion-ios-arrow-forward"></span></Link></p>
+                            </Fade>
                         </div>
                     </div>
                 </div>
             </div>
+            </Zoom>
         </div>
     );
 }

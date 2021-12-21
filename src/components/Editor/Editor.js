@@ -1,3 +1,4 @@
+import { Zoom } from 'react-awesome-reveal';
 import  Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import { connect } from 'react-redux';
@@ -61,7 +62,7 @@ const Editor = (props) => {
     return (
         props.isLogged
         ? <>
-            <h1>a very Simple Editor</h1>
+            <Zoom><h1>a very Simple Editor</h1></Zoom>
             <Form onSubmit={saveEditedArticle}>
         <Form.Group className="mb-3" >
             <Form.Label>Title:</Form.Label>
