@@ -2,10 +2,10 @@
 This project was created as an open platform for the articles publishing.
 
 ## Info about functionality available for the types of users.
-##### Non-auth user functionality
+#### 1) Non-auth user functionality
 For the non-authenticated users all the articles are open with a limited functionality (basically it's read-only). 
 
-##### Authenticated User functionality
+#### 2) Authenticated User functionality
 Registered and logged users are able to read and to mark with 'like' the articles; create/edit/delete their own articles, upload images, edit own profile details. Each article counts so-called "VIEWS" or "VISITS" param when a __logged user__ reads the article.
 
 ## Watch Demo ##
