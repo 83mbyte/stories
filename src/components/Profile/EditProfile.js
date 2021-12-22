@@ -115,13 +115,15 @@ const EditProfile = (props) => {
     const submitDeleteArticle = (articleId) => {
 
         let regexFilter = /(?:articles%2F)([-][\w\d]+.[a-z]+)(?:\?)/g;
-        let filenameToDelete;
+        let filenameToDelete=null;
 
         props.articles.forEach(element => {
 
             if (Object.keys(element)[0] === articleId) {
-
-                filenameToDelete = regexFilter.exec(element[articleId].image)[1];
+                 
+                if((regexFilter.exec(element[articleId].image))!==null){
+                    filenameToDelete = regexFilter.exec(element[articleId].image)[1];
+                } 
             }
         });
 

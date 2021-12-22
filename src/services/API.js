@@ -85,20 +85,23 @@ export const API = {
         return 'error';
     },
 
-    deleteArticle: async (articleId,filename, accessToken) => {
+    deleteArticle: async (articleId, filename, accessToken) => {
         let resp = await fetch(`${BASEURL}/publ/articles/${articleId}.json/?auth=${accessToken}`, {
             method: 'DELETE',
         });
 
         //delete article image from storage
-        if (resp.status === 200 && (filename!==undefined && filename!==null)) {
-            
-            const desertRef = ref(storage, `images/articles/${filename}`);
-            // Delete the file
-            deleteObject(desertRef).then( ()=>{
-                return resp.json();
-            })
-            
+        if (resp.status === 200) {
+
+            if (filename !== undefined && filename !== null) {
+                const fileRef = ref(storage, `images/articles/${filename}`);
+                
+                // Delete the file
+                deleteObject(fileRef).then(() => {
+                    return resp.json();
+                })
+            }
+            return resp.json();
         }
 
         return 'error';
