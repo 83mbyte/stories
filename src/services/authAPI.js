@@ -3,12 +3,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 const BASEURL = 'https://stories-8a67d-default-rtdb.firebaseio.com';
-//TODO common function to work with responces at our api . 
-/* if (resp.status === 200) {
-    return resp.json();
-}
-return 'error' */
-
+ 
 
 
 export const authAPI = {

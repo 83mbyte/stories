@@ -17,26 +17,26 @@ export function getAndSetInitialState(store) {
       if (resp.status === 200) {
         return resp.json();
       } else {
-        return 'Error'
+        return 'error'
       }
     }).then(resp => {
       //set state
       store.dispatch(actionCreatorGetInitialState(resp));
-      
+
       /* remove loader - dispatch action */
       // store.dispatch(actionCreatorToggleIsFetching(false));
-    }).then (()=>{
-      if (sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]')){
-         
-        let sessionObj = JSON.parse(sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]') );
-         let userObj = {userId: sessionObj.uid, email:sessionObj.email, accessToken:sessionObj.stsTokenManager.accessToken}
+    }).then(() => {
+      if (sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]')) {
+
+        let sessionObj = JSON.parse(sessionStorage.getItem('firebase:authUser:AIzaSyDF0y-vfxDI-uAudJmx0cdnrIB7AYeaZDI:[DEFAULT]'));
+        let userObj = { userId: sessionObj.uid, email: sessionObj.email, accessToken: sessionObj.stsTokenManager.accessToken }
         store.dispatch(actionCreatorAuthLogin(userObj));
         API.getUserProfile(userObj.userId, userObj.accessToken).then((resp) => {
           if (resp !== 'error' && resp !== undefined) {
-              store.dispatch(actionCreatorGetLoggedUserData(resp));
-              //navigate(`/profile`);
+            store.dispatch(actionCreatorGetLoggedUserData(resp));
+            //navigate(`/profile`);
           }
-      })
+        })
       }
     });
 }

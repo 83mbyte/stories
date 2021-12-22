@@ -13,7 +13,7 @@ const ProfileContainer = (props) => {
     }).filter(item => item != null); */
 
     const ua = () => {
-       let userArticles= Object.keys(props.articles).map( (item) => {
+        let userArticles = Object.keys(props.articles).map((item) => {
             if (props.articles[item].authorId === props.isLogged.userId) {
                 return { [item]: props.articles[item] }
             }
@@ -22,10 +22,6 @@ const ProfileContainer = (props) => {
         //console.log('===!!=== '+userArticles)
         return userArticles
     }
-
-
-
-
 
     return (
         <>
@@ -40,6 +36,7 @@ const ProfileContainer = (props) => {
                     submitModifiedProfile={props.submitModifiedProfile}
                 />
                 : <h1>Please login..</h1>}
+
         </>
     )
 

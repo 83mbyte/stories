@@ -72,8 +72,7 @@ const EditProfile = (props) => {
         let newProfileData = { name, about, twitter, facebook, instagram, linkedin }
 
         if (check === 'on') {
-            //console.log(props.user.userId + ' -==- ' + props.accessToken);
-            //let avatar = "/images/personDefault.jpg";
+             
             if (file.size > 0 || file.name !== "") {
 
 
@@ -218,7 +217,7 @@ const EditProfile = (props) => {
                                 /></Form.Group>
 
                             <div className="d-grid gap-2">
-                                <Button variant="primary" size="lg" type="submit">
+                                <Button variant="primary" size="sm" type="submit">
                                     Update Profile
                                 </Button>
 

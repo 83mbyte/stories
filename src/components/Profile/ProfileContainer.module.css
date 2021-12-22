@@ -6,7 +6,7 @@
 }
 
 .accordionStyle {
-    width: 85%;
+    width: 100%;
 
     margin: 0 auto;
 }
@@ -21,4 +21,15 @@
 
 .titleName {
     font-size: 25px;;
+}
+
+.ulProfile {
+    list-style: none;
+     
+    width: 100%;
+    margin:0;
+    padding: 0;
+}
+.ulProfile .about {
+    text-align: justify;
 }
